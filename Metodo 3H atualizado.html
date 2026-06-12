@@ -1,0 +1,2661 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Método das 3 Horas — Sistema 3H</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A227;
+    --gold-light: #E8C84A;
+    --gold-dim: #8B6914;
+    --dark: #0D0E10;
+    --dark2: #141618;
+    --dark3: #1C1E22;
+    --dark4: #232629;
+    --charcoal: #2C2F35;
+    --text: #E8E0D0;
+    --text-dim: #A09080;
+    --white: #FFFFFF;
+    --page-w: 794px;
+    --page-h: 1123px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #080909;
+    font-family: 'Lato', sans-serif;
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  #top-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(8,9,9,0.97);
+    border-bottom: 1px solid rgba(201,162,39,0.25);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 56px;
+    backdrop-filter: blur(10px);
+  }
+  #top-nav .nav-logo { height: 28px; }
+  #top-nav .nav-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px; font-weight: 600; letter-spacing: 3px;
+    color: var(--gold); text-transform: uppercase;
+  }
+  .nav-chapters {
+    display: flex; gap: 4px;
+  }
+  .nav-chapters button {
+    background: none; border: 1px solid transparent;
+    color: var(--text-dim); font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 600; letter-spacing: 1px;
+    padding: 5px 10px; border-radius: 3px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-chapters button:hover,
+  .nav-chapters button.active {
+    border-color: var(--gold); color: var(--gold);
+    background: rgba(201,162,39,0.08);
+  }
+
+  /* ─── PAGES CONTAINER ─── */
+  #book {
+    padding-top: 72px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 24px; padding-bottom: 80px;
+  }
+
+  /* ─── PAGE BASE ─── */
+  .page {
+    width: var(--page-w); min-height: var(--page-h);
+    background: var(--dark2);
+    box-shadow: 0 8px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(201,162,39,0.08);
+    position: relative; overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* ─── COVER PAGE ─── */
+  .page-cover {
+    background: var(--dark);
+    min-height: var(--page-h);
+    display: flex; flex-direction: column;
+  }
+  .cover-top-stripe {
+    height: 5px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-light), var(--gold));
+  }
+  .cover-left-bar {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 5px;
+    background: linear-gradient(180deg, var(--gold-dim), var(--gold), var(--gold-dim));
+  }
+  .cover-body {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 60px 60px 40px;
+    text-align: center;
+    position: relative;
+  }
+  .cover-bg-clock {
+    position: absolute; right: -60px; top: 50%; transform: translateY(-50%);
+    width: 480px; height: 480px; opacity: 0.04;
+  }
+  .cover-logo-wrap { margin-bottom: 48px; }
+  .cover-logo { width: 340px; }
+  .cover-divider {
+    width: 160px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 36px;
+  }
+  .cover-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px; font-weight: 300; letter-spacing: 5px;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 68px; font-weight: 900; line-height: 1;
+    color: var(--gold); margin-bottom: 12px;
+    text-shadow: 0 0 80px rgba(201,162,39,0.3);
+  }
+  .cover-title-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-weight: 400; font-style: italic;
+    color: var(--text-dim); margin-bottom: 48px;
+  }
+  .cover-tagline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px; letter-spacing: 3px; font-weight: 400;
+    color: rgba(201,162,39,0.6);
+    border-top: 1px solid rgba(201,162,39,0.2);
+    border-bottom: 1px solid rgba(201,162,39,0.2);
+    padding: 10px 28px; text-transform: uppercase;
+  }
+  .cover-bottom {
+    padding: 24px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(201,162,39,0.15);
+  }
+  .cover-bottom-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; letter-spacing: 2px; color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .cover-dots {
+    display: flex; gap: 6px;
+  }
+  .cover-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold); opacity: 0.4;
+  }
+  .cover-dot:nth-child(2) { opacity: 0.7; }
+  .cover-dot:nth-child(3) { opacity: 1; }
+
+  /* ─── PAGE HEADER / FOOTER ─── */
+  .page-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px 0;
+    border-bottom: 1px solid rgba(201,162,39,0.15);
+    padding-bottom: 14px;
+  }
+  .page-header-logo { height: 20px; opacity: 0.6; }
+  .page-header-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; letter-spacing: 2.5px; color: var(--gold);
+    font-weight: 600; text-transform: uppercase;
+  }
+  .page-footer {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 48px;
+    border-top: 1px solid rgba(201,162,39,0.12);
+  }
+  .page-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; letter-spacing: 1.5px; color: var(--text-dim);
+  }
+  .footer-bar {
+    height: 2px; width: 60px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    border-radius: 1px;
+  }
+
+  /* ─── PAGE CONTENT ─── */
+  .page-content {
+    padding: 28px 52px 60px;
+  }
+
+  /* ─── CHAPTER OPENER ─── */
+  .chapter-opener {
+    background: var(--dark);
+    min-height: var(--page-h);
+    position: relative; overflow: hidden;
+  }
+  .ch-accent-bar {
+    width: 100%; height: 4px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--gold-dim));
+  }
+  .ch-number-bg {
+    position: absolute; right: 40px; top: 50px;
+    font-family: 'Playfair Display', serif;
+    font-size: 240px; font-weight: 900; line-height: 1;
+    color: rgba(201,162,39,0.04); letter-spacing: -10px;
+    pointer-events: none;
+  }
+  .ch-content {
+    padding: 70px 56px 40px;
+    position: relative; z-index: 1;
+  }
+  .ch-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; letter-spacing: 4px; font-weight: 600;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .ch-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px; font-weight: 700; line-height: 1.15;
+    color: var(--white); margin-bottom: 8px;
+  }
+  .ch-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px; font-style: italic; color: var(--gold);
+    margin-bottom: 40px; line-height: 1.4;
+  }
+  .ch-divider {
+    width: 64px; height: 2px;
+    background: var(--gold); margin-bottom: 32px;
+    border-radius: 1px;
+  }
+  .ch-intro {
+    font-size: 16px; line-height: 1.85; color: var(--text);
+    max-width: 620px;
+  }
+  .ch-image-area {
+    margin: 40px -56px 0;
+    height: 320px;
+    background: var(--dark3);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ch-image-area img {
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.55;
+    filter: grayscale(20%) sepia(20%);
+  }
+  .ch-image-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, var(--dark) 0%, transparent 30%, transparent 60%, var(--dark) 100%),
+                linear-gradient(90deg, var(--dark) 0%, transparent 30%);
+  }
+  .ch-image-caption {
+    position: absolute; bottom: 20px; right: 28px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; letter-spacing: 2px; color: rgba(201,162,39,0.5);
+    text-transform: uppercase;
+  }
+
+  /* ─── CONTENT TYPOGRAPHY ─── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; font-weight: 700; color: var(--gold);
+    margin-bottom: 16px; margin-top: 32px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(201,162,39,0.2);
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  .subsection-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 2.5px;
+    color: var(--gold); text-transform: uppercase;
+    margin: 24px 0 12px;
+  }
+
+  p {
+    font-size: 15px; line-height: 1.9; color: var(--text);
+    margin-bottom: 14px;
+    font-weight: 300;
+  }
+  p strong {
+    color: var(--white); font-weight: 700;
+  }
+  p em {
+    color: var(--gold); font-style: italic;
+  }
+
+  /* ─── PULL QUOTE ─── */
+  .pull-quote {
+    margin: 28px 0;
+    padding: 24px 32px;
+    border-left: 3px solid var(--gold);
+    background: rgba(201,162,39,0.06);
+    position: relative;
+  }
+  .pull-quote::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 64px; color: rgba(201,162,39,0.15);
+    position: absolute; top: -8px; left: 16px; line-height: 1;
+  }
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; font-style: italic; line-height: 1.7;
+    color: var(--white); margin: 0;
+  }
+
+  /* ─── HIGHLIGHT BOX ─── */
+  .highlight-box {
+    margin: 24px 0;
+    background: rgba(201,162,39,0.08);
+    border: 1px solid rgba(201,162,39,0.25);
+    border-radius: 4px; padding: 22px 28px;
+  }
+  .highlight-box-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; letter-spacing: 3px; font-weight: 700;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* ─── INFO BOXES ─── */
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin: 20px 0;
+  }
+  .info-card {
+    background: var(--dark3);
+    border: 1px solid rgba(201,162,39,0.15);
+    border-radius: 4px; padding: 18px 20px;
+  }
+  .info-card-icon {
+    font-size: 22px; margin-bottom: 8px;
+  }
+  .info-card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .info-card p {
+    font-size: 13px; line-height: 1.7; margin: 0;
+  }
+
+  /* ─── CHECKLIST ─── */
+  .checklist { list-style: none; margin: 16px 0; }
+  .checklist li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 14px; line-height: 1.7; color: var(--text);
+    margin-bottom: 10px; padding: 10px 14px;
+    background: rgba(201,162,39,0.05);
+    border-radius: 3px;
+  }
+  .checklist li .check-icon {
+    color: var(--gold); font-size: 14px; flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* ─── SYSTEM 3H VISUAL ─── */
+  .system-3h {
+    display: flex; gap: 12px; margin: 24px 0;
+  }
+  .h-block {
+    flex: 1; border-radius: 4px; padding: 20px 16px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .h-block::before {
+    content: ''; position: absolute; inset: 0; opacity: 0.07;
+    background: var(--gold);
+  }
+  .h-block-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px; font-weight: 900; color: var(--gold);
+    line-height: 1; margin-bottom: 6px; opacity: 0.9;
+  }
+  .h-block-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .h-block-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px; font-style: italic; color: var(--white);
+    margin-bottom: 10px;
+  }
+  .h-block p { font-size: 12px; line-height: 1.6; color: var(--text-dim); margin: 0; }
+  .h-block-border { border: 1px solid rgba(201,162,39,0.3); }
+
+  /* ─── ENERGY TYPES VISUAL ─── */
+  .energy-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14px; margin: 20px 0;
+  }
+  .energy-card {
+    background: var(--dark3);
+    border-left: 3px solid var(--gold);
+    padding: 16px 18px; border-radius: 0 4px 4px 0;
+  }
+  .energy-card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .energy-card p { font-size: 13px; line-height: 1.65; margin: 0; }
+
+  /* ─── MATRIX TABLE ─── */
+  .matrix-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3px; margin: 20px 0;
+    background: rgba(201,162,39,0.2);
+    border: 1px solid rgba(201,162,39,0.2);
+    border-radius: 4px; overflow: hidden;
+  }
+  .matrix-cell {
+    padding: 18px 18px; background: var(--dark3);
+  }
+  .matrix-cell.highlight { background: rgba(201,162,39,0.1); }
+  .matrix-cell-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .matrix-cell-badge {
+    display: inline-block;
+    background: var(--gold); color: var(--dark);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px; font-weight: 700; letter-spacing: 1px;
+    padding: 2px 8px; border-radius: 2px;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .matrix-cell p { font-size: 12px; line-height: 1.6; margin: 0; }
+
+  /* ─── HABIT LOOP ─── */
+  .habit-loop {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; margin: 24px 0;
+  }
+  .habit-node {
+    background: var(--dark3); border: 1px solid rgba(201,162,39,0.3);
+    border-radius: 50%; width: 100px; height: 100px;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; padding: 10px;
+  }
+  .habit-node-icon { font-size: 20px; margin-bottom: 4px; }
+  .habit-node-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+    color: var(--gold); text-transform: uppercase;
+  }
+  .habit-arrow { color: var(--gold); font-size: 18px; opacity: 0.6; }
+
+  /* ─── DIAGNOSTIC ─── */
+  .diagnostic-box {
+    background: var(--dark3);
+    border: 1px solid rgba(201,162,39,0.25);
+    border-radius: 4px; padding: 24px 28px; margin: 20px 0;
+  }
+  .diagnostic-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+  }
+  .diagnostic-title::before {
+    content: ''; display: block; width: 3px; height: 14px;
+    background: var(--gold); border-radius: 1px;
+  }
+  .diag-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 10px; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(201,162,39,0.1);
+  }
+  .diag-item:last-child { border: none; margin: 0; padding: 0; }
+  .diag-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700; color: var(--gold);
+    background: rgba(201,162,39,0.12); border-radius: 2px;
+    padding: 2px 6px; flex-shrink: 0; margin-top: 2px;
+  }
+  .diag-item p { font-size: 13px; line-height: 1.6; margin: 0; }
+
+  /* ─── SUMMARY BOX ─── */
+  .summary-box {
+    background: var(--dark);
+    border: 1px solid rgba(201,162,39,0.3);
+    border-radius: 4px; margin: 20px 0; overflow: hidden;
+  }
+  .summary-header {
+    background: rgba(201,162,39,0.12);
+    padding: 12px 22px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 3px;
+    color: var(--gold); text-transform: uppercase;
+    border-bottom: 1px solid rgba(201,162,39,0.2);
+  }
+  .summary-body { padding: 18px 22px; }
+  .summary-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .summary-item:last-child { margin: 0; }
+  .summary-check { color: var(--gold); flex-shrink: 0; font-size: 14px; }
+  .summary-item p { font-size: 13px; line-height: 1.6; margin: 0; }
+
+  /* ─── TOC PAGE ─── */
+  .toc-page {
+    background: var(--dark);
+    padding: 56px 56px 60px;
+  }
+  .toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px; font-weight: 700; color: var(--white);
+    margin-bottom: 8px;
+  }
+  .toc-divider {
+    width: 56px; height: 2px; background: var(--gold);
+    margin-bottom: 40px; border-radius: 1px;
+  }
+  .toc-section { margin-bottom: 8px; }
+  .toc-entry {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 10px 0; cursor: pointer; transition: all 0.2s;
+    text-decoration: none; color: inherit;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .toc-entry:hover .toc-entry-name { color: var(--gold); }
+  .toc-entry-left { display: flex; align-items: baseline; gap: 14px; flex: 1; }
+  .toc-entry-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700; color: var(--gold);
+    letter-spacing: 1px; flex-shrink: 0;
+  }
+  .toc-entry-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; color: var(--text);
+    transition: color 0.2s;
+  }
+  .toc-entry-sub {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px; color: var(--text-dim);
+    font-style: italic; margin-left: 24px;
+    display: block; margin-top: 2px;
+  }
+  .toc-entry-pg {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; color: var(--gold-dim);
+    flex-shrink: 0; margin-left: 16px;
+  }
+  .toc-dots {
+    flex: 1; border-bottom: 1px dashed rgba(201,162,39,0.2);
+    margin: 0 12px; min-width: 20px; transform: translateY(-4px);
+  }
+
+  /* ─── TOOL CARD ─── */
+  .tool-card {
+    background: var(--dark3);
+    border: 1px solid rgba(201,162,39,0.2);
+    border-radius: 4px; margin: 18px 0; overflow: hidden;
+  }
+  .tool-card-header {
+    background: rgba(201,162,39,0.1);
+    padding: 12px 22px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid rgba(201,162,39,0.2);
+  }
+  .tool-card-icon { font-size: 18px; }
+  .tool-card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    color: var(--gold); text-transform: uppercase;
+  }
+  .tool-card-body { padding: 20px 22px; }
+
+  /* ─── TRACKER TABLE ─── */
+  .tracker-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+  }
+  .tracker-table th {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700; letter-spacing: 2px;
+    color: var(--gold); text-transform: uppercase;
+    padding: 8px 12px; background: rgba(201,162,39,0.1);
+    border: 1px solid rgba(201,162,39,0.15); text-align: left;
+  }
+  .tracker-table td {
+    padding: 8px 12px; font-size: 12px; color: var(--text);
+    border: 1px solid rgba(201,162,39,0.1);
+    background: var(--dark3);
+  }
+  .tracker-table tr:nth-child(even) td { background: rgba(201,162,39,0.04); }
+  .tracker-table td:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 600; color: var(--gold);
+    width: 60px; text-align: center;
+  }
+  .check-box {
+    width: 18px; height: 18px;
+    border: 1px solid rgba(201,162,39,0.4);
+    border-radius: 3px; display: inline-block;
+  }
+
+  /* ─── DISTRACTION LIST ─── */
+  .distraction-item {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-bottom: 12px;
+  }
+  .dist-problem {
+    background: rgba(180,60,60,0.08);
+    border-left: 2px solid rgba(200,80,80,0.5);
+    border-radius: 0 3px 3px 0; padding: 12px 14px;
+  }
+  .dist-solution {
+    background: rgba(201,162,39,0.06);
+    border-left: 2px solid var(--gold);
+    border-radius: 0 3px 3px 0; padding: 12px 14px;
+  }
+  .dist-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .dist-problem .dist-label { color: rgba(220,100,100,0.8); }
+  .dist-solution .dist-label { color: var(--gold); }
+  .dist-problem p, .dist-solution p { font-size: 12px; margin: 0; line-height: 1.5; }
+
+  /* ─── COMMITMENT BOX ─── */
+  .commitment-box {
+    background: var(--dark);
+    border: 2px solid var(--gold);
+    border-radius: 6px; padding: 32px 36px;
+    text-align: center; margin: 28px 0;
+  }
+  .commitment-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700; color: var(--white);
+    margin-bottom: 16px;
+  }
+  .commitment-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; font-style: italic; color: var(--text);
+    line-height: 1.8; margin-bottom: 24px;
+  }
+  .commitment-sig {
+    border-top: 1px solid rgba(201,162,39,0.3);
+    padding-top: 16px;
+    display: flex; justify-content: space-around;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; letter-spacing: 2px;
+    color: var(--text-dim); text-transform: uppercase;
+  }
+  .sig-line {
+    display: inline-block;
+    border-top: 1px solid rgba(201,162,39,0.4);
+    width: 140px; margin-bottom: 6px;
+    padding-top: 8px;
+  }
+
+  /* ─── FINAL PAGE ─── */
+  .final-page {
+    background: var(--dark);
+    min-height: var(--page-h);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 60px;
+    position: relative;
+  }
+  .final-gold-circle {
+    width: 200px; height: 200px; border-radius: 50%;
+    border: 2px solid rgba(201,162,39,0.2);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 40px;
+    position: relative;
+  }
+  .final-gold-circle::before {
+    content: ''; position: absolute;
+    width: 160px; height: 160px; border-radius: 50%;
+    border: 1px solid rgba(201,162,39,0.1);
+  }
+  .final-clock-svg { width: 80px; height: 80px; }
+  .final-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px; font-weight: 900; color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .final-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-style: italic; color: var(--text-dim);
+    margin-bottom: 40px;
+  }
+  .final-message {
+    font-family: 'Lato', sans-serif;
+    font-size: 15px; line-height: 1.9; color: var(--text);
+    max-width: 520px; margin: 0 auto 40px; font-weight: 300;
+  }
+  .final-divider {
+    width: 120px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 24px;
+  }
+  .final-tagline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px; letter-spacing: 4px; color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  /* ─── PRINT-LIKE IMAGE PLACEHOLDERS ─── */
+  .img-placeholder {
+    background: var(--dark3);
+    border: 1px solid rgba(201,162,39,0.15);
+    border-radius: 4px; overflow: hidden;
+    position: relative; display: flex; align-items: center;
+    justify-content: center; flex-direction: column;
+  }
+  .img-placeholder img {
+    width: 100%; height: 100%;
+    object-fit: cover; opacity: 0.65;
+    filter: grayscale(15%) sepia(15%);
+    display: block;
+  }
+  .img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(13,14,16,0.85) 100%);
+  }
+  .img-caption {
+    position: absolute; bottom: 12px; left: 16px; right: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; letter-spacing: 2px; color: rgba(201,162,39,0.7);
+    text-transform: uppercase;
+  }
+
+  /* ─── SECTION SEPARATOR ─── */
+  .section-sep {
+    display: flex; align-items: center; gap: 12px;
+    margin: 24px 0;
+  }
+  .sep-line { flex: 1; height: 1px; background: rgba(201,162,39,0.15); }
+  .sep-icon { color: var(--gold); font-size: 12px; }
+
+  /* ─── UNSPLASH IMAGES ─── */
+  .real-img { width: 100%; height: 200px; object-fit: cover; object-position: center 30%; border-radius: 3px; opacity: 0.7; filter: sepia(20%) contrast(1.1); display: block; }
+  .real-img-full { width: 100%; height: 260px; object-fit: cover; object-position: center; opacity: 0.65; filter: sepia(20%); display: block; }
+
+  /* ─── SCROLL TO TOP ─── */
+  #back-top {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--gold); color: var(--dark);
+    width: 40px; height: 40px; border-radius: 50%;
+    border: none; cursor: pointer; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(201,162,39,0.4);
+    opacity: 0; transition: opacity 0.3s;
+    z-index: 999;
+  }
+  #back-top.visible { opacity: 1; }
+
+  /* ─── MOBILE MENU TOGGLE ─── */
+  #menu-toggle {
+    display: none;
+    background: none; border: none; cursor: pointer;
+    flex-direction: column; gap: 5px; padding: 4px;
+  }
+  #menu-toggle span {
+    display: block; width: 22px; height: 2px;
+    background: var(--gold); border-radius: 2px;
+    transition: all 0.25s;
+  }
+  #mobile-menu {
+    display: none;
+    position: fixed; top: 56px; left: 0; right: 0;
+    background: rgba(8,9,9,0.98);
+    border-bottom: 1px solid rgba(201,162,39,0.2);
+    z-index: 999;
+    flex-direction: column; gap: 0;
+    backdrop-filter: blur(12px);
+  }
+  #mobile-menu.open { display: flex; }
+  #mobile-menu button {
+    background: none; border: none; border-bottom: 1px solid rgba(201,162,39,0.08);
+    color: var(--text); font-family: 'Montserrat', sans-serif;
+    font-size: 12px; font-weight: 600; letter-spacing: 2px;
+    padding: 14px 24px; cursor: pointer; text-align: left;
+    text-transform: uppercase; transition: background 0.2s;
+  }
+  #mobile-menu button:hover { background: rgba(201,162,39,0.08); color: var(--gold); }
+
+  /* ─── RESPONSIVE: TABLET 860px ─── */
+  @media (max-width: 860px) {
+    :root { --page-w: 100vw; }
+    #book { gap: 16px; padding-top: 64px; }
+    .nav-chapters { display: none; }
+    #menu-toggle { display: flex; }
+    .info-grid, .energy-grid { grid-template-columns: 1fr; }
+    .matrix-grid { grid-template-columns: 1fr; }
+    .system-3h { flex-direction: column; gap: 10px; }
+    .habit-loop { flex-wrap: wrap; justify-content: center; }
+    .distraction-item { grid-template-columns: 1fr; gap: 6px; }
+    .toc-dots { display: none; }
+    .toc-entry-sub { margin-left: 0; }
+  }
+
+  /* ─── FLEX ROW utility: collapses on mobile ─── */
+  .flex-row { display: flex; gap: 16px; }
+  .flex-row-sm { display: flex; gap: 12px; }
+  .flex-row > div, .flex-row-sm > div { min-width: 0; }
+
+  /* ─── RESPONSIVE: MOBILE 480px ─── */
+  @media (max-width: 480px) {
+    .flex-row, .flex-row-sm { flex-direction: column !important; gap: 10px !important; }
+    :root { --page-w: 100vw; }
+
+    /* Nav */
+    #top-nav { padding: 0 16px; height: 52px; }
+    #top-nav .nav-title { font-size: 10px; letter-spacing: 2px; }
+    #book { gap: 12px; padding-top: 60px; padding-bottom: 60px; }
+
+    /* Page base */
+    .page { box-shadow: none; border-radius: 0; }
+
+    /* Page header / footer */
+    .page-header { padding: 14px 20px 10px; }
+    .page-header-tag { font-size: 8px; letter-spacing: 1.5px; }
+    .page-footer { padding: 10px 20px; }
+    .page-num { font-size: 8px; }
+
+    /* Page content */
+    .page-content { padding: 20px 20px 52px; }
+
+    /* Cover */
+    .cover-body { padding: 36px 24px 28px; }
+    .cover-logo { width: 240px; }
+    .cover-logo-wrap { margin-bottom: 28px; }
+    .cover-title { font-size: 48px; }
+    .cover-title-sub { font-size: 16px; margin-bottom: 28px; }
+    .cover-subtitle { font-size: 10px; letter-spacing: 3px; }
+    .cover-tagline { font-size: 9px; letter-spacing: 2px; padding: 8px 14px; }
+    .cover-bottom { padding: 16px 24px; }
+    .cover-bottom-text { font-size: 8px; }
+    .cover-bg-clock { width: 260px; height: 260px; right: -30px; opacity: 0.03; }
+
+    /* TOC */
+    .toc-page { padding: 36px 20px 40px; }
+    .toc-title { font-size: 26px; }
+    .toc-entry-name { font-size: 14px; }
+    .toc-entry-sub { font-size: 10px; display: none; }
+    .toc-dots { display: none; }
+
+    /* Chapter opener */
+    .ch-content { padding: 48px 24px 28px; }
+    .ch-title { font-size: 30px; }
+    .ch-sub { font-size: 15px; }
+    .ch-intro { font-size: 14px; }
+    .ch-number-bg { font-size: 160px; right: 16px; top: 30px; }
+    .ch-image-area { height: 220px; margin: 28px -24px 0; }
+
+    /* Typography */
+    .section-title { font-size: 19px; margin-top: 24px; }
+    .subsection-title { font-size: 10px; }
+    p { font-size: 14px; line-height: 1.85; }
+    .pull-quote { padding: 18px 20px; margin: 20px 0; }
+    .pull-quote p { font-size: 15px; }
+    .pull-quote::before { font-size: 48px; }
+
+    /* Highlight box */
+    .highlight-box { padding: 16px 18px; margin: 18px 0; }
+
+    /* Info / energy cards */
+    .info-grid, .energy-grid { grid-template-columns: 1fr; gap: 10px; margin: 14px 0; }
+    .info-card { padding: 14px 16px; }
+    .info-card p { font-size: 12px; }
+
+    /* System 3H */
+    .system-3h { flex-direction: column; gap: 8px; margin: 18px 0; }
+    .h-block { padding: 16px 14px; }
+    .h-block-num { font-size: 36px; }
+    .h-block-sub { font-size: 13px; }
+    .h-block p { font-size: 11px; }
+
+    /* Matrix */
+    .matrix-grid { grid-template-columns: 1fr; gap: 2px; margin: 14px 0; }
+    .matrix-cell { padding: 14px 16px; }
+
+    /* Checklist */
+    .checklist li { font-size: 13px; padding: 8px 12px; }
+
+    /* Diagnostic */
+    .diagnostic-box { padding: 16px 18px; margin: 14px 0; }
+    .diag-item p { font-size: 12px; }
+
+    /* Summary */
+    .summary-header { padding: 10px 16px; font-size: 9px; }
+    .summary-body { padding: 14px 16px; }
+    .summary-item p { font-size: 12px; }
+
+    /* Habit loop */
+    .habit-loop { flex-direction: column; align-items: center; gap: 6px; margin: 18px 0; }
+    .habit-arrow { transform: rotate(90deg); }
+    .habit-node { width: 90px; height: 90px; }
+
+    /* Tool card */
+    .tool-card-body { padding: 16px 16px; }
+    .tool-card-header { padding: 10px 16px; }
+
+    /* Tracker table */
+    .tracker-table th { font-size: 8px; padding: 6px 8px; }
+    .tracker-table td { font-size: 11px; padding: 6px 8px; }
+
+    /* Distraction items */
+    .distraction-item { grid-template-columns: 1fr; gap: 4px; margin-bottom: 8px; }
+
+    /* Commitment box */
+    .commitment-box { padding: 22px 20px; margin: 18px 0; }
+    .commitment-title { font-size: 18px; }
+    .commitment-text { font-size: 14px; }
+
+    /* Final page */
+    .final-page { padding: 40px 24px; }
+    .final-title { font-size: 26px; }
+    .final-sub { font-size: 15px; margin-bottom: 24px; }
+    .final-message { font-size: 14px; }
+    .final-gold-circle { width: 140px; height: 140px; margin-bottom: 28px; }
+    .final-gold-circle::before { width: 110px; height: 110px; }
+    .final-clock-svg { width: 60px; height: 60px; }
+
+    /* Back to top */
+    #back-top { bottom: 16px; right: 16px; width: 36px; height: 36px; font-size: 14px; }
+
+    /* Inline style overrides for grids inside page-content */
+    .page-content [style*="display:flex"][style*="gap:16px"],
+    .page-content [style*="display: flex"][style*="gap: 16px"] {
+      flex-direction: column !important;
+      gap: 10px !important;
+    }
+    .page-content [style*="display:grid"][style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav id="top-nav">
+  <span class="nav-title">Sistema 3H</span>
+  <div class="nav-chapters">
+    <button onclick="goTo('cover')" class="active">Capa</button>
+    <button onclick="goTo('intro')">Intro</button>
+    <button onclick="goTo('cap1')">Cap. 1</button>
+    <button onclick="goTo('cap2')">Cap. 2</button>
+    <button onclick="goTo('cap3')">Cap. 3</button>
+    <button onclick="goTo('cap4')">Cap. 4</button>
+    <button onclick="goTo('cap5')">Cap. 5</button>
+    <button onclick="goTo('cap6')">Cap. 6</button>
+    <button onclick="goTo('bonus')">Bônus</button>
+  </div>
+  <button id="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE DROPDOWN MENU -->
+<div id="mobile-menu">
+  <button onclick="goTo('cover');toggleMenu()">📖 Capa</button>
+  <button onclick="goTo('intro');toggleMenu()">— Introdução</button>
+  <button onclick="goTo('cap1');toggleMenu()">01 — O Mito da Multitarefa</button>
+  <button onclick="goTo('cap2');toggleMenu()">02 — Energia antes do Tempo</button>
+  <button onclick="goTo('cap3');toggleMenu()">03 — As 3 Horas que Mudam Tudo</button>
+  <button onclick="goTo('cap4');toggleMenu()">04 — Prioridade Real</button>
+  <button onclick="goTo('cap5');toggleMenu()">05 — Consistência sem Força de Vontade</button>
+  <button onclick="goTo('cap6');toggleMenu()">06 — Resultados sem Burnout</button>
+  <button onclick="goTo('bonus');toggleMenu()">⭐ Kit de Implementação</button>
+</div>
+
+<div id="book">
+
+<!-- ════════════════════════════════════════════ -->
+<!-- PAGE 1: CAPA -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page page-cover" id="cover">
+  <div class="cover-top-stripe"></div>
+  <div class="cover-left-bar"></div>
+
+  <div class="cover-body">
+    <!-- BG Decorative Clock SVG -->
+    <svg class="cover-bg-clock" viewBox="0 0 400 400" fill="none">
+      <circle cx="200" cy="200" r="180" stroke="#C9A227" stroke-width="1" opacity="0.15"/>
+      <circle cx="200" cy="200" r="140" stroke="#C9A227" stroke-width="0.5" opacity="0.1"/>
+      <line x1="200" y1="200" x2="200" y2="70" stroke="#C9A227" stroke-width="2.5" opacity="0.25" stroke-linecap="round"/>
+      <line x1="200" y1="200" x2="295" y2="200" stroke="#C9A227" stroke-width="2" opacity="0.2" stroke-linecap="round"/>
+      <path d="M200 60 A140 140 0 0 1 340 200" stroke="#C9A227" stroke-width="3" opacity="0.3" stroke-linecap="round" fill="none"/>
+      <circle cx="200" cy="200" r="8" fill="#C9A227" opacity="0.2"/>
+    </svg>
+
+    <div class="cover-logo-wrap">
+      <img class="cover-logo" src="data:image/jpeg;base64,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" alt="Sistema 3H Logo">
+    </div>
+
+    <div class="cover-subtitle">Sistema 3H — Produtividade Real</div>
+
+    <div class="cover-title">3 Horas</div>
+    <div class="cover-title-sub">Como triplicar sua produtividade<br>sem abrir mão do descanso</div>
+
+    <div class="cover-divider"></div>
+
+    <div class="cover-tagline">Foco total &nbsp;|&nbsp; Energia certa &nbsp;|&nbsp; Resultado real</div>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-bottom-text">O Método das 3 Horas</div>
+    <div class="cover-dots">
+      <div class="cover-dot"></div>
+      <div class="cover-dot"></div>
+      <div class="cover-dot"></div>
+    </div>
+    <div class="cover-bottom-text">Sistema 3H</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- PAGE 2: SUMÁRIO -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page toc-page" id="toc">
+  <div class="toc-title">Sumário</div>
+  <div class="toc-divider"></div>
+
+  <div class="toc-section">
+    <a class="toc-entry" onclick="goTo('intro')" href="#">
+      <div class="toc-entry-left">
+        <span class="toc-entry-num">—</span>
+        <div>
+          <span class="toc-entry-name">Introdução</span>
+          <span class="toc-entry-sub">O que é o Método das 3 Horas · Para quem é este livro · Como usar</span>
+        </div>
+      </div>
+      <div class="toc-dots"></div>
+      <span class="toc-entry-pg">03</span>
+    </a>
+  </div>
+
+  <div class="toc-section">
+    <a class="toc-entry" onclick="goTo('cap1')" href="#">
+      <div class="toc-entry-left">
+        <span class="toc-entry-num">01</span>
+        <div>
+          <span class="toc-entry-name">O Mito da Multitarefa</span>
+          <span class="toc-entry-sub">O ladrão invisível de energia e o custo da troca de contexto</span>
+        </div>
+      </div>
+      <div class="toc-dots"></div>
+      <span class="toc-entry-pg">05</span>
+    </a>
+  </div>
+
+  <div class="toc-section">
+    <a class="toc-entry" onclick="goTo('cap2')" href="#">
+      <div class="toc-entry-left">
+        <span class="toc-entry-num">02</span>
+        <div>
+          <span class="toc-entry-name">Energia Antes do Tempo</span>
+          <span class="toc-entry-sub">O segredo que ninguém fala sobre produtividade real</span>
+        </div>
+      </div>
+      <div class="toc-dots"></div>
+      <span class="toc-entry-pg">09</span>
+    </a>
+  </div>
+
+  <div class="toc-section">
+    <a class="toc-entry" onclick="goTo('cap3')" href="#">
+      <div class="toc-entry-left">
+        <span class="toc-entry-num">03</span>
+        <div>
+          <span class="toc-entry-name">As 3 Horas que Mudam Tudo</span>
+          <span class="toc-entry-sub">O Bloco de Alto Desempenho e o Sistema 3H</span>
+        </div>
+      </div>
+      <div class="toc-dots"></div>
+      <span class="toc-entry-pg">12</span>
+    </a>
+  </div>
+
+  <div class="toc-section">
+    <a class="toc-entry" onclick="goTo('cap4')" href="#">
+      <div class="toc-entry-left">
+        <span class="toc-entry-num">04</span>
+        <div>
+          <span class="toc-entry-name">Prioridade Real</span>
+          <span class="toc-entry-sub">Como escolher as tarefas certas para suas 3 horas</span>
+        </div>
+      </div>
+      <div class="toc-dots"></div>
+      <span class="toc-entry-pg">16</span>
+    </a>
+  </div>
+
+  <div class="toc-section">
+    <a class="toc-entry" onclick="goTo('cap5')" href="#">
+      <div class="toc-entry-left">
+        <span class="toc-entry-num">05</span>
+        <div>
+          <span class="toc-entry-name">Consistência sem Força de Vontade</span>
+          <span class="toc-entry-sub">Como transformar o método em hábito automático</span>
+        </div>
+      </div>
+      <div class="toc-dots"></div>
+      <span class="toc-entry-pg">19</span>
+    </a>
+  </div>
+
+  <div class="toc-section">
+    <a class="toc-entry" onclick="goTo('cap6')" href="#">
+      <div class="toc-entry-left">
+        <span class="toc-entry-num">06</span>
+        <div>
+          <span class="toc-entry-name">Resultados sem Burnout</span>
+          <span class="toc-entry-sub">Como produzir muito e ainda ter vida</span>
+        </div>
+      </div>
+      <div class="toc-dots"></div>
+      <span class="toc-entry-pg">21</span>
+    </a>
+  </div>
+
+  <div class="toc-section">
+    <a class="toc-entry" onclick="goTo('bonus')" href="#">
+      <div class="toc-entry-left">
+        <span class="toc-entry-num">+</span>
+        <div>
+          <span class="toc-entry-name">Kit de Implementação — Bônus</span>
+          <span class="toc-entry-sub">Templates · Rastreador 14 Dias · Checklists · Distrações</span>
+        </div>
+      </div>
+      <div class="toc-dots"></div>
+      <span class="toc-entry-pg">24</span>
+    </a>
+  </div>
+
+  <div style="margin-top:48px; text-align:center;">
+    <div style="width:40px; height:1px; background:var(--gold); margin:0 auto 16px; opacity:0.4;"></div>
+    <p style="font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:2px; color:var(--text-dim); text-transform:uppercase;">Foco total. Energia certa. Resultado real.</p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════ -->
+<!-- INTRODUÇÃO -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page" id="intro">
+  <div class="page-header">
+    <span class="page-header-tag">Introdução</span>
+    <span class="page-header-tag">O Método das 3 Horas</span>
+  </div>
+
+  <div class="page-content">
+    <div class="section-title">O que é o Método das 3 Horas</div>
+
+    <p>O Método das 3 Horas <strong>não é sobre trabalhar menos.</strong><br>É sobre trabalhar melhor.</p>
+
+    <p>A maioria das pessoas acredita que produtividade significa fazer mais coisas em menos tempo. Por isso vivem correndo, acumulando tarefas, enchendo agendas e tentando encaixar cada minuto do dia em algum aplicativo ou sistema.</p>
+
+    <div class="pull-quote">
+      <p>Produtividade real não é quantidade. É impacto.</p>
+    </div>
+
+    <!-- Imagem real: pessoa focada no trabalho -->
+    <div style="margin: 20px -52px; height:210px; overflow:hidden; position:relative;">
+      <img class="real-img-full" src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80" alt="Pessoa focada trabalhando">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,var(--dark2) 0%,transparent 30%,transparent 65%,var(--dark2) 100%)"></div>
+      <div style="position:absolute;bottom:14px;right:24px;font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:2px;color:rgba(201,162,39,0.5);text-transform:uppercase;">Foco que gera resultado</div>
+    </div>
+
+    <p>Imagine duas pessoas. A primeira trabalha 10 horas por dia, responde centenas de mensagens, participa de reuniões, resolve pequenos problemas e termina o dia exausta. A segunda dedica três horas de foco total ao trabalho mais importante do dia. Sem distrações. Sem interrupções. Sem trocar de tarefa a cada cinco minutos.</p>
+
+    <p><em>Quem você acredita que produzirá mais resultado ao longo de um ano?</em></p>
+
+    <p>O Método das 3 Horas nasce dessa pergunta. Sua ideia central é simples: todos nós possuímos um período diário de maior energia, clareza mental e capacidade de concentração. Quando você identifica esse período e o protege das distrações, algo extraordinário acontece.</p>
+
+    <div class="highlight-box">
+      <div class="highlight-box-title">Os Cinco Princípios do Sistema 3H</div>
+      <ul class="checklist">
+        <li><span class="check-icon">◈</span> Nem todo trabalho gera progresso.</li>
+        <li><span class="check-icon">◈</span> Energia vale mais que tempo.</li>
+        <li><span class="check-icon">◈</span> Foco profundo supera esforço prolongado.</li>
+        <li><span class="check-icon">◈</span> As tarefas certas valem mais do que muitas tarefas.</li>
+        <li><span class="check-icon">◈</span> Consistência vence intensidade.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span class="page-num">Introdução</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">03</span>
+  </div>
+</div>
+
+<!-- INTRO PAGE 2 -->
+<div class="page" id="intro2">
+  <div class="page-header">
+    <span class="page-header-tag">Introdução</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+
+  <div class="page-content">
+    <div class="section-title">Para Quem É Este Livro</div>
+
+    <p>Este livro foi escrito para pessoas comuns que carregam responsabilidades reais.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-icon">💼</div>
+        <div class="info-card-title">Profissionais</div>
+        <p>Que sentem que trabalham o dia inteiro e terminam o expediente com a sensação de que algo importante ficou para trás.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🔥</div>
+        <div class="info-card-title">Líderes</div>
+        <p>Que vivem apagando incêndios e precisam recuperar o controle da própria agenda e energia.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🚀</div>
+        <div class="info-card-title">Empreendedores</div>
+        <p>Que possuem dezenas de projetos abertos ao mesmo tempo e não sabem por onde avançar com mais inteligência.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">📚</div>
+        <div class="info-card-title">Estudantes e Pais</div>
+        <p>Que sabem o que precisam fazer, mas não conseguem encontrar concentração ou equilibrar vida e objetivos.</p>
+      </div>
+    </div>
+
+    <div class="section-sep">
+      <div class="sep-line"></div><span class="sep-icon">◆</span><div class="sep-line"></div>
+    </div>
+
+    <div class="section-title">Como Usar Este Livro</div>
+
+    <p>O maior erro que você pode cometer é tratar este livro apenas como leitura. <strong>Conhecimento não gera transformação. Aplicação gera transformação.</strong></p>
+
+    <p>Por isso, cada capítulo foi construído para conduzi-lo por uma jornada prática. Você encontrará exercícios simples, reflexões rápidas, diagnósticos, ferramentas, checklists e ações que podem ser implementadas imediatamente.</p>
+
+    <div class="pull-quote">
+      <p>Não tente aplicar tudo de uma vez. O objetivo não é perfeição. O objetivo é progresso.</p>
+    </div>
+
+    <p>Ao final do livro você encontrará o <strong>Kit de Implementação do Método das 3 Horas</strong>, contendo templates, rastreador de 14 dias, checklists de entrada e saída, e a lista das distrações mais comuns com suas soluções.</p>
+
+    <div class="highlight-box">
+      <div class="highlight-box-title">Antes de Virar a Página</div>
+      <p style="font-size:14px; line-height:1.8; margin:0;">Seu problema não é falta de capacidade. Também não é falta de potencial. E provavelmente não é falta de esforço. <strong>Você já está se esforçando demais.</strong> O problema é que sua energia está sendo distribuída em dezenas de direções diferentes. O Método das 3 Horas existe para mudar isso.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span class="page-num">Introdução</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">04</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- CAPÍTULO 1 OPENER -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page chapter-opener" id="cap1">
+  <div class="ch-accent-bar"></div>
+  <div class="ch-number-bg">01</div>
+  <div class="ch-content">
+    <div class="ch-label">Capítulo 01</div>
+    <div class="ch-title">O Mito da<br>Multitarefa</div>
+    <div class="ch-sub">e o Ladrão Invisível de Energia</div>
+    <div class="ch-divider"></div>
+    <p class="ch-intro">Vivemos em uma época em que nunca foi tão fácil trabalhar — e nunca foi tão difícil manter o foco. Neste capítulo você descobrirá por que o cérebro humano não foi projetado para multitarefa e qual é o custo real de cada interrupção no seu dia.</p>
+  </div>
+  <div class="ch-image-area">
+    <img src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=800&q=80" alt="Profissional sobrecarregado">
+    <div class="ch-image-overlay"></div>
+    <div class="ch-image-caption">A armadilha da produtividade moderna</div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 01</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">05</span>
+  </div>
+</div>
+
+<!-- CAP 1 PAGE 2 -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 1 — O Mito da Multitarefa</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="section-title">A Armadilha da Produtividade Moderna</div>
+
+    <p>São 8h17 da manhã. Você acabou de sentar para trabalhar. Abre o computador. Lembra de uma mensagem que precisa responder. Enquanto responde, chega um e-mail. Você abre o e-mail. O assunto parece importante. Antes de terminar a leitura, uma notificação aparece no celular...</p>
+
+    <p>Quando percebe, quarenta minutos se passaram. Você esteve ocupado o tempo inteiro. Mas ainda não começou o trabalho que realmente precisava fazer.</p>
+
+    <div class="pull-quote">
+      <p>"Trabalhei muito, mas avancei pouco." — A frase que define a produtividade moderna.</p>
+    </div>
+
+    <div class="section-title">O Mito da Multitarefa</div>
+
+    <p>Durante muitos anos, a multitarefa foi vendida como uma habilidade desejável. Empresas valorizavam profissionais capazes de fazer várias coisas ao mesmo tempo. As pessoas se orgulhavam de responder mensagens durante reuniões, atender ligações enquanto escreviam relatórios.</p>
+
+    <p>Mas havia um problema. <strong>O cérebro humano não funciona dessa maneira.</strong></p>
+
+    <p>Quando você acredita que está realizando várias tarefas simultaneamente, na verdade está alternando rapidamente entre elas. Seu cérebro muda o foco, volta, muda novamente — e cada troca possui um custo.</p>
+
+    <!-- Gráfico de custo de troca -->
+    <div style="margin: 20px 0; background:var(--dark3); border:1px solid rgba(201,162,39,0.2); border-radius:4px; padding:20px 24px;">
+      <div style="font-family:'Montserrat',sans-serif; font-size:10px; font-weight:700; letter-spacing:2px; color:var(--gold); text-transform:uppercase; margin-bottom:16px;">Impacto da Troca de Contexto</div>
+      <div style="display:flex; gap:8px; align-items:flex-end; height:80px; margin-bottom:10px;">
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
+          <div style="width:100%; height:20px; background:rgba(201,162,39,0.8); border-radius:2px 2px 0 0;"></div>
+          <span style="font-size:10px; color:var(--text-dim); text-align:center;">1 tarefa</span>
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
+          <div style="width:100%; height:45px; background:rgba(201,162,39,0.5); border-radius:2px 2px 0 0;"></div>
+          <span style="font-size:10px; color:var(--text-dim); text-align:center;">2 tarefas</span>
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
+          <div style="width:100%; height:68px; background:rgba(201,162,39,0.25); border-radius:2px 2px 0 0;"></div>
+          <span style="font-size:10px; color:var(--text-dim); text-align:center;">3+ tarefas</span>
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
+          <div style="width:100%; height:80px; background:rgba(180,80,80,0.35); border-radius:2px 2px 0 0;"></div>
+          <span style="font-size:10px; color:var(--text-dim); text-align:center;">5+ tarefas</span>
+        </div>
+      </div>
+      <div style="height:1px; background:rgba(201,162,39,0.2); margin-bottom:8px;"></div>
+      <p style="font-size:11px; color:var(--text-dim); margin:0;">↑ Perda de produtividade por fragmentação de atenção</p>
+    </div>
+
+    <p>Imagine um carro acelerando em uma estrada. Toda vez que você freia completamente para mudar de direção, precisa gastar energia para voltar à velocidade anterior. Sua atenção funciona de forma semelhante. A multitarefa não aumenta produtividade. <strong>Ela fragmenta produtividade.</strong></p>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 01</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">06</span>
+  </div>
+</div>
+
+<!-- CAP 1 PAGE 3 -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 1 — O Mito da Multitarefa</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="section-title">O Custo Invisível da Troca de Contexto</div>
+    <p>Toda vez que você interrompe uma atividade para iniciar outra, seu cérebro precisa reorganizar informações, prioridades e objetivos. Esse processo acontece em segundos — por isso muitas pessoas não percebem o impacto. Mas ele existe.</p>
+
+    <div class="diagnostic-box">
+      <div class="diagnostic-title">O Ciclo de Interrupção</div>
+      <div class="diag-item">
+        <span class="diag-num">1</span>
+        <p>Você está escrevendo uma proposta importante.</p>
+      </div>
+      <div class="diag-item">
+        <span class="diag-num">2</span>
+        <p>Recebe uma mensagem. Responde. Volta ao documento.</p>
+      </div>
+      <div class="diag-item">
+        <span class="diag-num">3</span>
+        <p>Abre o e-mail. Lê uma atualização. Volta ao documento.</p>
+      </div>
+      <div class="diag-item">
+        <span class="diag-num">4</span>
+        <p>Atende uma ligação. Retorna novamente.</p>
+      </div>
+      <div class="diag-item">
+        <span class="diag-num">⚠</span>
+        <p><strong>Resultado:</strong> Sua mente precisou reiniciar a concentração várias vezes — sem perceber.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>É como tentar encher um balde com pequenos furos. Você continua colocando água, mas parte dela está sempre escapando.</p>
+    </div>
+
+    <div class="section-title">Quando a Atenção se Tornou um Produto</div>
+    <p>Sua atenção possui valor. Muito valor. Empresas disputam sua atenção todos os dias. Redes sociais, aplicativos, plataformas de vídeo, jogos, notícias — todos competem pelo mesmo recurso: <em>sua capacidade de focar.</em></p>
+
+    <p>Por isso tantas ferramentas são projetadas para interromper você. Notificações, alertas, sons, ícones vermelhos, mensagens urgentes. Nada disso existe por acaso. Quanto mais tempo você permanece conectado, mais valor é gerado para essas plataformas.</p>
+
+    <div class="highlight-box">
+      <div class="highlight-box-title">Ocupação não é Progresso</div>
+      <p style="font-size:14px; line-height:1.8; margin:0 0 10px;">Você pode passar o dia inteiro resolvendo pequenas demandas e, ainda assim, não avançar um único passo em direção aos seus objetivos.</p>
+      <div class="flex-row" style="margin-top:12px;">
+        <div style="flex:1; text-align:center; padding:10px; background:rgba(180,80,80,0.08); border-radius:3px;">
+          <div style="font-size:11px; color:rgba(220,100,100,0.8); font-family:'Montserrat',sans-serif; font-weight:700; letter-spacing:1px; margin-bottom:4px;">MOVIMENTO</div>
+          <div style="font-size:12px; color:var(--text-dim);">Responder mensagens<br>Participar de reuniões</div>
+        </div>
+        <div style="flex:1; text-align:center; padding:10px; background:rgba(201,162,39,0.08); border-radius:3px;">
+          <div style="font-size:11px; color:var(--gold); font-family:'Montserrat',sans-serif; font-weight:700; letter-spacing:1px; margin-bottom:4px;">PROGRESSO</div>
+          <div style="font-size:12px; color:var(--text-dim);">Concluir tarefas impactantes<br>Executar tarefas de alavanca</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 01</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">07</span>
+  </div>
+</div>
+
+<!-- CAP 1 PAGE 4 — DIAGNÓSTICO + RESUMO -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 1 — Diagnóstico Prático</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div style="height:180px; overflow:hidden; position:relative; margin: 0 -52px 24px; border-bottom:1px solid rgba(201,162,39,0.15);">
+      <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80" alt="Pessoa anotando em agenda" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;opacity:0.5;filter:sepia(20%);">
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--dark2) 0%,transparent 50%,var(--dark2) 100%),linear-gradient(180deg,transparent 60%,var(--dark2) 100%)"></div>
+      <div style="position:absolute;left:52px;top:50%;transform:translateY(-50%);">
+        <div style="font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Diagnóstico</div>
+        <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--white);">Observe sua rotina<br>com honestidade</div>
+      </div>
+    </div>
+
+    <p>Durante os próximos três dias, anote com honestidade:</p>
+
+    <div class="diagnostic-box">
+      <div class="diagnostic-title">Diagnóstico Prático — 3 Dias</div>
+      <div class="diag-item">
+        <span class="diag-num">📊</span>
+        <p>Quantas horas você ficou trabalhando ao total.</p>
+      </div>
+      <div class="diag-item">
+        <span class="diag-num">🔔</span>
+        <p>Quantas vezes interrompeu uma tarefa para fazer outra.</p>
+      </div>
+      <div class="diag-item">
+        <span class="diag-num">📱</span>
+        <p>Quantas vezes verificou o celular sem necessidade.</p>
+      </div>
+      <div class="diag-item">
+        <span class="diag-num">📧</span>
+        <p>Quantas vezes abriu o e-mail sem necessidade real.</p>
+      </div>
+      <div class="diag-item">
+        <span class="diag-num">⭐</span>
+        <p>Quantas horas dedicou à atividade <strong>mais importante</strong> do dia.</p>
+      </div>
+    </div>
+
+    <p style="text-align:center; font-family:'Playfair Display',serif; font-size:16px; font-style:italic; color:var(--gold); margin:16px 0;">Das horas que trabalhei, quantas foram de foco verdadeiro?</p>
+
+    <div class="summary-box">
+      <div class="summary-header">O que você aprendeu neste capítulo</div>
+      <div class="summary-body">
+        <div class="summary-item"><span class="summary-check">✓</span><p>O cérebro não realiza multitarefa verdadeira.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>Cada interrupção possui um custo invisível.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>A troca constante de contexto reduz desempenho e aumenta fadiga mental.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>Sua atenção é um recurso valioso e disputado diariamente.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>Estar ocupado não é a mesma coisa que produzir resultados.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>O primeiro passo para aumentar produtividade é recuperar o controle da sua atenção.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 01</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">08</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════ -->
+<!-- CAPÍTULO 2 OPENER -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page chapter-opener" id="cap2">
+  <div class="ch-accent-bar"></div>
+  <div class="ch-number-bg">02</div>
+  <div class="ch-content">
+    <div class="ch-label">Capítulo 02</div>
+    <div class="ch-title">Energia antes<br>do Tempo</div>
+    <div class="ch-sub">O Segredo que Ninguém Fala sobre Produtividade</div>
+    <div class="ch-divider"></div>
+    <p class="ch-intro">Você pode ter todo o tempo do mundo — mas se tentar executar tarefas importantes nos momentos errados do dia, continuará produzindo abaixo do seu potencial. A gestão da energia é mais importante do que a gestão do tempo.</p>
+  </div>
+  <div class="ch-image-area">
+    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" alt="Amanhecer energia">
+    <div class="ch-image-overlay"></div>
+    <div class="ch-image-caption">O Horário de Ouro — seu pico de desempenho</div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 02</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">09</span>
+  </div>
+</div>
+
+<!-- CAP 2 PAGE 2 -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 2 — Energia antes do Tempo</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="section-title">Quando Trabalhar Mais não Resolve</div>
+
+    <p>Imagine duas pessoas. A primeira dormiu mal, acordou cansada, passou a manhã lidando com problemas e tenta iniciar uma tarefa importante às 16h da tarde. A segunda dormiu bem, começou o dia descansada e trabalha na mesma tarefa durante seu período de maior clareza mental. As duas possuem exatamente uma hora disponível.</p>
+
+    <div class="pull-quote">
+      <p>Uma hora com energia alta pode valer mais do que três horas de atenção fragmentada.</p>
+    </div>
+
+    <p>É por isso que o Método das 3 Horas <strong>não começa pelo relógio. Ele começa pela energia.</strong> Porque o tempo é fixo. A energia não.</p>
+
+    <div class="section-title">Os Quatro Tipos de Energia</div>
+
+    <div class="energy-grid">
+      <div class="energy-card">
+        <div class="energy-card-title">⚡ Energia Física</div>
+        <p>É o combustível do corpo. Sono, alimentação, hidratação, movimento. Quando está baixa, tudo parece exigir mais esforço.</p>
+      </div>
+      <div class="energy-card">
+        <div class="energy-card-title">🧠 Energia Mental</div>
+        <p>É a capacidade de manter concentração, raciocínio e clareza. Consumida por decisões constantes, interrupções e excesso de informação.</p>
+      </div>
+      <div class="energy-card">
+        <div class="energy-card-title">💛 Energia Emocional</div>
+        <p>Preocupação, ansiedade, conflitos e pressão excessiva consomem recursos internos — mesmo quando você está fisicamente descansado.</p>
+      </div>
+      <div class="energy-card">
+        <div class="energy-card-title">🎯 Energia de Propósito</div>
+        <p>Quando você entende por que está fazendo algo, encontra mais facilidade para permanecer comprometido. Isso dá significado ao esforço.</p>
+      </div>
+    </div>
+
+    <div style="margin:20px 0; background:var(--dark3); border:1px solid rgba(201,162,39,0.2); border-radius:4px; padding:18px 22px;">
+      <div style="font-family:'Montserrat',sans-serif; font-size:10px; font-weight:700; letter-spacing:2px; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Variação de Energia ao Longo do Dia</div>
+      <div style="position:relative; height:80px;">
+        <svg viewBox="0 0 640 80" style="width:100%;height:80px;">
+          <defs>
+            <linearGradient id="energyGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#C9A227" stop-opacity="0.8"/>
+              <stop offset="40%" stop-color="#E8C84A" stop-opacity="1"/>
+              <stop offset="60%" stop-color="#8B6914" stop-opacity="0.6"/>
+              <stop offset="80%" stop-color="#C9A227" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#5a4010" stop-opacity="0.4"/>
+            </linearGradient>
+          </defs>
+          <path d="M0 70 C80 70 120 15 200 10 C280 5 320 40 380 50 C440 60 480 35 560 45 L640 50 L640 80 L0 80 Z" fill="url(#energyGrad)" opacity="0.3"/>
+          <path d="M0 70 C80 70 120 15 200 10 C280 5 320 40 380 50 C440 60 480 35 560 45 L640 50" fill="none" stroke="#C9A227" stroke-width="2" opacity="0.8"/>
+          <text x="200" y="7" text-anchor="middle" fill="#C9A227" font-size="9" font-family="Montserrat">Pico de energia</text>
+          <text x="10" y="74" fill="#A09080" font-size="8" font-family="Montserrat">6h</text>
+          <text x="150" y="74" fill="#A09080" font-size="8" font-family="Montserrat">9h</text>
+          <text x="290" y="74" fill="#A09080" font-size="8" font-family="Montserrat">12h</text>
+          <text x="430" y="74" fill="#A09080" font-size="8" font-family="Montserrat">15h</text>
+          <text x="570" y="74" fill="#A09080" font-size="8" font-family="Montserrat">18h</text>
+        </svg>
+      </div>
+      <p style="font-size:11px; color:var(--text-dim); margin:6px 0 0;">* O ritmo varia por pessoa — identifique o seu Horário de Ouro</p>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 02</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">10</span>
+  </div>
+</div>
+
+<!-- CAP 2 PAGE 3 -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 2 — Horário de Ouro</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="section-title">Descobrindo seu Horário de Ouro</div>
+
+    <p>Uma das maiores descobertas que você pode fazer é identificar seu período natural de maior desempenho. Chamaremos esse período de <strong>Horário de Ouro</strong> — a faixa do dia em que sua mente opera com mais clareza, foco e velocidade.</p>
+
+    <div class="highlight-box">
+      <div class="highlight-box-title">O Horário de Ouro</div>
+      <div style="display:flex; gap:12px; margin-top:10px;">
+        <div style="flex:1; text-align:center; padding:14px 8px; background:rgba(201,162,39,0.05); border-radius:3px; border:1px solid rgba(201,162,39,0.2);">
+          <div style="font-size:22px; margin-bottom:6px;">🌅</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:4px;">Matutino</div>
+          <p style="font-size:11px;margin:0;color:var(--text-dim);">6h — 10h<br>Alta clareza logo cedo</p>
+        </div>
+        <div style="flex:1; text-align:center; padding:14px 8px; background:rgba(201,162,39,0.05); border-radius:3px; border:1px solid rgba(201,162,39,0.2);">
+          <div style="font-size:22px; margin-bottom:6px;">☀️</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:4px;">Diurno</div>
+          <p style="font-size:11px;margin:0;color:var(--text-dim);">10h — 14h<br>Pico após aquecimento</p>
+        </div>
+        <div style="flex:1; text-align:center; padding:14px 8px; background:rgba(201,162,39,0.05); border-radius:3px; border:1px solid rgba(201,162,39,0.2);">
+          <div style="font-size:22px; margin-bottom:6px;">🌙</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:4px;">Noturno</div>
+          <p style="font-size:11px;margin:0;color:var(--text-dim);">19h — 22h<br>Energia recuperada</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:160px; overflow:hidden; position:relative; margin:20px -52px; border-top:1px solid rgba(201,162,39,0.1); border-bottom:1px solid rgba(201,162,39,0.1);">
+      <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80" alt="Pessoa trabalhando com foco" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;opacity:0.45;filter:sepia(15%);">
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--dark2) 0%,transparent 40%,transparent 60%,var(--dark2) 100%)"></div>
+    </div>
+
+    <div class="section-title">Exercício: Mapeando seu Ritmo Natural</div>
+
+    <p>Durante os próximos três dias, a cada duas horas responda: <em>Como está minha energia agora?</em> Use uma escala de 1 a 10.</p>
+
+    <div class="diagnostic-box">
+      <div class="diagnostic-title">Registre a cada 2 horas</div>
+      <div class="diag-item"><span class="diag-num">🎯</span><p>Nível de concentração (1–10)</p></div>
+      <div class="diag-item"><span class="diag-num">⚡</span><p>Nível de disposição (1–10)</p></div>
+      <div class="diag-item"><span class="diag-num">💡</span><p>Facilidade para pensar (1–10)</p></div>
+      <div class="diag-item"><span class="diag-num">🚀</span><p>Motivação para agir (1–10)</p></div>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-header">O que você aprendeu neste capítulo</div>
+      <div class="summary-body">
+        <div class="summary-item"><span class="summary-check">✓</span><p>Nem todas as horas possuem o mesmo valor.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>Existem quatro tipos de energia: física, mental, emocional e de propósito.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>Pessoas produtivas trabalham em sintonia com seus momentos de maior desempenho.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>Seu Horário de Ouro é um dos ativos mais valiosos da sua rotina.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 02</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">11</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- CAPÍTULO 3 OPENER -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page chapter-opener" id="cap3">
+  <div class="ch-accent-bar"></div>
+  <div class="ch-number-bg">03</div>
+  <div class="ch-content">
+    <div class="ch-label">Capítulo 03</div>
+    <div class="ch-title">As 3 Horas<br>que Mudam Tudo</div>
+    <div class="ch-sub">Estruturando seu Bloco de Alto Desempenho</div>
+    <div class="ch-divider"></div>
+    <p class="ch-intro">Chegou o momento de transformar tudo que você aprendeu em prática real. O Bloco de Alto Desempenho — BAD — é o coração do Método das 3 Horas. É aqui que a teoria se transforma em resultado visível.</p>
+  </div>
+  <div class="ch-image-area">
+    <img src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=800&q=80" alt="Foco no trabalho">
+    <div class="ch-image-overlay"></div>
+    <div class="ch-image-caption">O bloco que transforma seu dia</div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 03</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">12</span>
+  </div>
+</div>
+
+<!-- CAP 3 PAGE 2 — SISTEMA 3H -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 3 — O Sistema 3H</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="section-title">O Bloco de Alto Desempenho — BAD</div>
+
+    <p>O BAD é um período protegido de aproximadamente três horas dedicado exclusivamente às atividades de maior impacto da sua vida profissional ou pessoal. Durante esse período você não responde mensagens, não verifica redes sociais, não atende demandas secundárias e não realiza multitarefa.</p>
+
+    <div class="highlight-box">
+      <div class="highlight-box-title">Regras do BAD</div>
+      <ul class="checklist">
+        <li><span class="check-icon">🚫</span> Não responder mensagens durante o bloco</li>
+        <li><span class="check-icon">🚫</span> Não verificar redes sociais</li>
+        <li><span class="check-icon">🚫</span> Não atender demandas secundárias</li>
+        <li><span class="check-icon">🚫</span> Não realizar multitarefa</li>
+        <li><span class="check-icon">✅</span> Foco total no que mais importa</li>
+      </ul>
+    </div>
+
+    <div class="section-title">O Sistema 3H em Detalhe</div>
+    <p>As três horas são divididas em três fases estratégicas:</p>
+
+    <div class="system-3h">
+      <div class="h-block h-block-border">
+        <div class="h-block-num">H1</div>
+        <div class="h-block-label">Clareza</div>
+        <div class="h-block-sub">Definir · Planejar · Direcionar</div>
+        <p>Identifique exatamente qual é a tarefa de maior impacto. Clareza vem antes da execução.</p>
+      </div>
+      <div class="h-block h-block-border">
+        <div class="h-block-num">H2</div>
+        <div class="h-block-label">Foco Profundo</div>
+        <div class="h-block-sub">Executar · Produzir · Construir</div>
+        <p>Aqui acontece o trabalho real. Sem distrações, sem interrupções. A fase mais poderosa do método.</p>
+      </div>
+      <div class="h-block h-block-border">
+        <div class="h-block-num">H3</div>
+        <div class="h-block-label">Consolidação</div>
+        <div class="h-block-sub">Finalizar · Organizar · Preparar</div>
+        <p>Conclua o que foi iniciado, registre avanços e prepare o próximo passo para amanhã.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>A maioria das pessoas não precisa de mais tempo. Precisa de menos interrupções, mais clareza e foco direcionado.</p>
+    </div>
+
+    <div class="section-title">A Regra das 3 Tarefas Inegociáveis</div>
+    <p>Todos os dias você deve identificar apenas <strong>três tarefas realmente importantes</strong> — as <em>Tarefas de Alavanca</em>. São tarefas que geram impacto desproporcional. Elas movem projetos, geram crescimento e produzem resultados reais.</p>
+
+    <p style="text-align:center; font-family:'Playfair Display',serif; font-size:16px; font-style:italic; color:var(--gold);">Se eu pudesse concluir apenas três coisas hoje,<br>quais gerariam o maior impacto?</p>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 03</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">13</span>
+  </div>
+</div>
+
+<!-- CAP 3 PAGE 3 — RITUAIS -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 3 — Rituais e Técnicas</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="section-title">Construindo o Ambiente Ideal</div>
+    <p>O foco não depende apenas da sua mente. Ele depende do ambiente. Antes de iniciar seu BAD, elimine tudo que possa competir pela sua atenção:</p>
+
+    <ul class="checklist">
+      <li><span class="check-icon">✓</span>Coloque o celular em modo silencioso</li>
+      <li><span class="check-icon">✓</span>Feche abas desnecessárias do navegador</li>
+      <li><span class="check-icon">✓</span>Desative notificações de todos os apps</li>
+      <li><span class="check-icon">✓</span>Avise pessoas próximas quando possível</li>
+      <li><span class="check-icon">✓</span>Deixe água e materiais necessários por perto</li>
+      <li><span class="check-icon">✓</span>Organize sua mesa e espaço de trabalho</li>
+    </ul>
+
+    <div class="section-title">O Ritual de Entrada (10 min)</div>
+
+    <div class="diagnostic-box">
+      <div class="diagnostic-title">4 Passos para Entrar em Foco</div>
+      <div class="diag-item"><span class="diag-num">01</span><p><strong>Revise</strong> sua Tarefa de Alavanca: "O que preciso concluir neste bloco?"</p></div>
+      <div class="diag-item"><span class="diag-num">02</span><p><strong>Organize</strong> o ambiente. Elimine distrações visíveis e digitais.</p></div>
+      <div class="diag-item"><span class="diag-num">03</span><p><strong>Respire</strong> profundamente por um minuto. Reduza o ritmo. Prepare sua atenção.</p></div>
+      <div class="diag-item"><span class="diag-num">04</span><p><strong>Defina</strong> o primeiro passo da tarefa — nunca comece pensando no projeto inteiro.</p></div>
+    </div>
+
+    <div class="section-title">A Técnica 50/10</div>
+
+    <div class="flex-row" style="margin:16px 0;">
+      <div style="flex:1; background:rgba(201,162,39,0.1); border:1px solid rgba(201,162,39,0.3); border-radius:4px; padding:18px; text-align:center;">
+        <div style="font-family:'Playfair Display',serif; font-size:36px; font-weight:900; color:var(--gold); line-height:1; margin-bottom:8px;">50'</div>
+        <div style="font-family:'Montserrat',sans-serif; font-size:10px; font-weight:700; letter-spacing:2px; color:var(--white); text-transform:uppercase; margin-bottom:8px;">Foco Total</div>
+        <p style="font-size:12px; color:var(--text-dim); margin:0;">Nenhuma interrupção. Nenhuma troca de contexto.</p>
+      </div>
+      <div style="flex:1; background:var(--dark3); border:1px solid rgba(201,162,39,0.15); border-radius:4px; padding:18px; text-align:center;">
+        <div style="font-family:'Playfair Display',serif; font-size:36px; font-weight:900; color:var(--gold-dim); line-height:1; margin-bottom:8px;">10'</div>
+        <div style="font-family:'Montserrat',sans-serif; font-size:10px; font-weight:700; letter-spacing:2px; color:var(--white); text-transform:uppercase; margin-bottom:8px;">Pausa Estratégica</div>
+        <p style="font-size:12px; color:var(--text-dim); margin:0;">Levantar, alongar, beber água. Sem redes sociais.</p>
+      </div>
+    </div>
+
+    <div class="section-title">O Ritual de Saída (5 min)</div>
+    <ul class="checklist">
+      <li><span class="check-icon">✓</span>O que avancei hoje?</li>
+      <li><span class="check-icon">✓</span>O que ficou pendente?</li>
+      <li><span class="check-icon">✓</span>Qual será o próximo passo amanhã?</li>
+    </ul>
+    <p style="font-size:13px; color:var(--text-dim); margin-top:8px;">Quando você registra essas informações, seu cérebro entende que o trabalho foi encerrado — reduzindo ansiedade e preservando energia mental.</p>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 03</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">14</span>
+  </div>
+</div>
+
+<!-- CAP 3 RESUMO -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 3 — Resumo</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div style="height:170px; overflow:hidden; position:relative; margin:0 -52px 24px; border-bottom:1px solid rgba(201,162,39,0.15);">
+      <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80" alt="Equipe produtiva" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0.45;filter:sepia(15%);">
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--dark2) 0%,transparent 50%,var(--dark2) 100%),linear-gradient(180deg,transparent 50%,var(--dark2) 100%)"></div>
+      <div style="position:absolute;right:52px;bottom:24px;text-align:right;">
+        <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);">O erro que destrói o método</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-top:4px;">Esperar perfeição</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <div class="highlight-box-title">O erro que destrói o método</div>
+      <p style="font-size:14px; line-height:1.8; margin:0 0 10px;">Haverá dias ruins. Haverá interrupções. Haverá blocos incompletos. Isso faz parte. O objetivo não é proteger três horas perfeitas todos os dias. O objetivo é construir uma prática consistente.</p>
+      <p style="font-size:14px; line-height:1.8; margin:0; color:var(--gold); font-style:italic; font-family:'Playfair Display',serif;">Produtividade extraordinária não nasce da perfeição. Nasce da repetição.</p>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-header">O que você aprendeu neste capítulo</div>
+      <div class="summary-body">
+        <div class="summary-item"><span class="summary-check">✓</span><p>O Bloco de Alto Desempenho é o coração do Método das 3 Horas.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>O Sistema 3H organiza suas horas em Clareza, Foco Profundo e Consolidação.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>As Tarefas de Alavanca são as atividades que geram maior impacto.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>O ambiente influencia diretamente sua capacidade de concentração.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>O Ritual de Entrada prepara sua mente para executar com foco.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>A Técnica 50/10 ajuda a manter energia e foco ao longo do bloco.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>O Ritual de Saída reduz carga mental e aumenta consistência.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 03</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">15</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════ -->
+<!-- CAPÍTULO 4 OPENER -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page chapter-opener" id="cap4">
+  <div class="ch-accent-bar"></div>
+  <div class="ch-number-bg">04</div>
+  <div class="ch-content">
+    <div class="ch-label">Capítulo 04</div>
+    <div class="ch-title">Prioridade<br>Real</div>
+    <div class="ch-sub">Como Escolher as Tarefas Certas para suas 3 Horas</div>
+    <div class="ch-divider"></div>
+    <p class="ch-intro">Produtividade não depende apenas da quantidade de tempo disponível, mas da qualidade das escolhas feitas dentro desse tempo. Neste capítulo você aprenderá a diferenciar urgente de importante e a identificar suas verdadeiras Tarefas de Alavanca.</p>
+  </div>
+  <div class="ch-image-area">
+    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80" alt="Profissional analisando prioridades">
+    <div class="ch-image-overlay"></div>
+    <div class="ch-image-caption">Escolher certo vale mais do que fazer muito</div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 04</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">16</span>
+  </div>
+</div>
+
+<!-- CAP 4 PAGE 2 -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 4 — Prioridade Real</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="section-title">A Diferença entre Urgente e Importante</div>
+
+    <div class="flex-row" style="margin:16px 0 24px;">
+      <div style="flex:1; background:rgba(180,80,80,0.08); border:1px solid rgba(200,80,80,0.25); border-radius:4px; padding:18px;">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(220,110,110,0.9);text-transform:uppercase;margin-bottom:10px;">🔴 Urgente</div>
+        <p style="font-size:13px;line-height:1.7;margin:0;">Exige atenção rápida. Gera pressão. Pede resposta imediata. Faz barulho. <em>Nem sempre gera resultado real.</em></p>
+      </div>
+      <div style="flex:1; background:rgba(201,162,39,0.06); border:1px solid rgba(201,162,39,0.25); border-radius:4px; padding:18px;">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">⭐ Importante</div>
+        <p style="font-size:13px;line-height:1.7;margin:0;">Produz resultado. Constrói futuro. Move objetivos. Nem sempre parece urgente. Geralmente exige planejamento.</p>
+      </div>
+    </div>
+
+    <p>O desafio é que o urgente costuma vencer. Ele chega primeiro. Interrompe. Pressiona. Insiste. Já o importante é silencioso — não envia notificações, não faz cobranças imediatas. Mas é ele que transforma sua vida.</p>
+
+    <div class="section-title">A Matriz de Decisão 3H</div>
+    <p>Antes de iniciar seu Bloco de Alto Desempenho, classifique suas tarefas em quatro grupos:</p>
+
+    <div class="matrix-grid">
+      <div class="matrix-cell highlight">
+        <div class="matrix-cell-title">Grupo 1</div>
+        <div class="matrix-cell-badge">Faça agora</div>
+        <p><strong>Importante + Urgente</strong><br>Prazo crítico, problema urgente, entrega inadiável.</p>
+      </div>
+      <div class="matrix-cell" style="background:rgba(201,162,39,0.12);border:1px solid rgba(201,162,39,0.3);">
+        <div class="matrix-cell-title">Grupo 2 ⭐</div>
+        <div class="matrix-cell-badge" style="background:var(--gold-light);">Seu BAD</div>
+        <p><strong>Importante, não urgente</strong><br>Planejamento, estudo, projetos estratégicos. <em>Aqui vivem as Tarefas de Alavanca.</em></p>
+      </div>
+      <div class="matrix-cell">
+        <div class="matrix-cell-title">Grupo 3</div>
+        <div class="matrix-cell-badge" style="background:#555;color:#ccc;">Delegue</div>
+        <p><strong>Urgente, pouco importante</strong><br>Mensagens, solicitações de baixa relevância. Delegue, automatize ou agrupe.</p>
+      </div>
+      <div class="matrix-cell">
+        <div class="matrix-cell-title">Grupo 4</div>
+        <div class="matrix-cell-badge" style="background:#443;color:#888;">Elimine</div>
+        <p><strong>Nem urgente nem importante</strong><br>Navegação sem propósito, distrações digitais, consumo excessivo.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>Esta atividade apenas ocupa meu tempo ou gera resultado futuro? Se gera resultado futuro, provavelmente é uma Tarefa de Alavanca.</p>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 04</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">17</span>
+  </div>
+</div>
+
+<!-- CAP 4 PAGE 3 -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 4 — Tarefas de Alavanca</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="section-title">As Tarefas de Alavanca por Perfil</div>
+
+    <div class="energy-grid">
+      <div class="energy-card">
+        <div class="energy-card-title">🚀 Empreendedor</div>
+        <p>Criar uma oferta · Desenvolver um produto · Fechar uma parceria estratégica · Atrair clientes</p>
+      </div>
+      <div class="energy-card">
+        <div class="energy-card-title">💼 Profissional</div>
+        <p>Aprender uma habilidade estratégica · Concluir um projeto importante · Resolver um problema crítico</p>
+      </div>
+      <div class="energy-card">
+        <div class="energy-card-title">📚 Estudante</div>
+        <p>Estudar profundamente uma disciplina-chave · Preparar-se para uma prova decisiva</p>
+      </div>
+      <div class="energy-card">
+        <div class="energy-card-title">🏠 Gestão Pessoal</div>
+        <p>Organizar processos que economizem tempo diariamente · Planejar a semana da família</p>
+      </div>
+    </div>
+
+    <div class="section-title">O Teste das 3 Perguntas</div>
+
+    <div class="diagnostic-box">
+      <div class="diagnostic-title">Antes de qualquer tarefa, responda:</div>
+      <div class="diag-item"><span class="diag-num">01</span><p>Se eu concluir apenas esta atividade hoje, meu dia terá valido a pena?</p></div>
+      <div class="diag-item"><span class="diag-num">02</span><p>Esta tarefa aproxima meus objetivos ou apenas mantém minha rotina funcionando?</p></div>
+      <div class="diag-item"><span class="diag-num">03</span><p>Daqui a 30 dias, essa atividade ainda terá importância real?</p></div>
+    </div>
+
+    <div class="section-title">O Planejamento Noturno de 5 Minutos</div>
+    <p>Uma das práticas mais poderosas do Método das 3 Horas acontece <strong>antes de dormir</strong>. Reserve cinco minutos. Apenas isso.</p>
+
+    <div class="highlight-box">
+      <div class="highlight-box-title">Rotina Noturna (5 min)</div>
+      <p style="font-size:14px; line-height:1.8; margin:0 0 10px;">Escreva: <em>Minha principal Tarefa de Alavanca para amanhã.</em></p>
+      <p style="font-size:14px; line-height:1.8; margin:0;">Depois responda: <em>Qual é o primeiro passo concreto?</em></p>
+      <p style="font-size:13px; color:var(--text-dim); margin:10px 0 0;">Quando você acordar, não precisará gastar energia decidindo. Você já terá direção. Isso reduz procrastinação e aumenta clareza.</p>
+    </div>
+
+    <div class="section-title">A Arte de Dizer Não</div>
+    <p>Toda prioridade possui um preço. Sempre que você diz sim para algo, está dizendo não para outra coisa. Proteger seu Bloco de Alto Desempenho exige limites. <strong>Aprender a dizer não não é egoísmo. É gestão de prioridades.</strong></p>
+
+    <div class="summary-box">
+      <div class="summary-header">O que você aprendeu neste capítulo</div>
+      <div class="summary-body">
+        <div class="summary-item"><span class="summary-check">✓</span><p>Urgência e importância são coisas diferentes.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>As Tarefas de Alavanca geram resultados desproporcionais.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>O planejamento noturno aumenta clareza e reduz procrastinação.</p></div>
+        <div class="summary-item"><span class="summary-check">✓</span><p>Dizer não é uma habilidade essencial para proteger seu foco.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 04</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">18</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- CAPÍTULO 5 OPENER -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page chapter-opener" id="cap5">
+  <div class="ch-accent-bar"></div>
+  <div class="ch-number-bg">05</div>
+  <div class="ch-content">
+    <div class="ch-label">Capítulo 05</div>
+    <div class="ch-title">Consistência<br>sem Força<br>de Vontade</div>
+    <div class="ch-sub">Como Transformar o Método em Hábito Automático</div>
+    <div class="ch-divider"></div>
+    <p class="ch-intro">Motivação é excelente para começar — mas é inconsistente demais para sustentar resultados. Neste capítulo você descobrirá como construir sistemas que funcionam mesmo quando a motivação desaparece.</p>
+  </div>
+  <div class="ch-image-area">
+    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80" alt="Pessoa determinada">
+    <div class="ch-image-overlay"></div>
+    <div class="ch-image-caption">Sistemas vencem força de vontade</div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 05</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">19</span>
+  </div>
+</div>
+
+<!-- CAP 5 PAGE 2 -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 5 — Consistência sem Força de Vontade</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="section-title">O Poder dos Sistemas</div>
+
+    <div class="pull-quote">
+      <p>Você não alcança o nível dos seus objetivos. Você cai para o nível dos seus sistemas.</p>
+    </div>
+
+    <p>Objetivos são importantes — eles apontam a direção. Mas sistemas determinam o resultado. Por isso o Sistema 3H é tão poderoso: ele reduz a dependência da motivação e aumenta a dependência da rotina.</p>
+
+    <div class="section-title">Como os Hábitos Realmente Funcionam</div>
+    <p>Todo hábito possui três componentes principais:</p>
+
+    <div class="habit-loop">
+      <div class="habit-node">
+        <div class="habit-node-icon">🔔</div>
+        <div class="habit-node-label">Gatilho</div>
+      </div>
+      <div class="habit-arrow">→</div>
+      <div class="habit-node">
+        <div class="habit-node-icon">⚡</div>
+        <div class="habit-node-label">Rotina</div>
+      </div>
+      <div class="habit-arrow">→</div>
+      <div class="habit-node">
+        <div class="habit-node-icon">🏆</div>
+        <div class="habit-node-label">Recompensa</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <div class="highlight-box-title">O Hábito 3H na Prática</div>
+      <div class="flex-row-sm">
+        <div style="flex:1; padding:12px; background:var(--dark3); border-radius:3px; text-align:center;">
+          <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Gatilho</div>
+          <p style="font-size:12px;margin:0;color:var(--text-dim);">Horário de Ouro ou horário previamente definido</p>
+        </div>
+        <div style="flex:1; padding:12px; background:var(--dark3); border-radius:3px; text-align:center;">
+          <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Rotina</div>
+          <p style="font-size:12px;margin:0;color:var(--text-dim);">Bloco de Alto Desempenho — Sistema 3H completo</p>
+        </div>
+        <div style="flex:1; padding:12px; background:var(--dark3); border-radius:3px; text-align:center;">
+          <div style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;">Recompensa</div>
+          <p style="font-size:12px;margin:0;color:var(--text-dim);">Sensação de progresso, clareza e menos estresse</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">O Segredo dos Dias Imperfeitos</div>
+    <p>Aqui está uma verdade importante: você vai falhar. Vai perder um dia. Talvez uma semana. Isso não significa que o método deixou de funcionar. Significa que você é humano.</p>
+
+    <div class="pull-quote">
+      <p>Nunca falhe duas vezes seguidas. A velocidade do retorno é mais importante do que a perfeição da execução.</p>
+    </div>
+
+    <div class="section-title">Identidade: O Nível Mais Profundo da Mudança</div>
+    <div class="flex-row-sm" style="margin:16px 0;">
+      <div style="flex:1; background:rgba(180,80,80,0.08); border-radius:3px; padding:14px; border-left:3px solid rgba(200,80,80,0.4);">
+        <p style="font-family:'Playfair Display',serif;font-size:14px;font-style:italic;margin:0;color:var(--text-dim);">"Estou tentando ser produtivo."</p>
+        <p style="font-size:11px;color:rgba(220,100,100,0.7);margin:6px 0 0;">— Uma tentativa</p>
+      </div>
+      <div style="flex:1; background:rgba(201,162,39,0.08); border-radius:3px; padding:14px; border-left:3px solid var(--gold);">
+        <p style="font-family:'Playfair Display',serif;font-size:14px;font-style:italic;margin:0;color:var(--white);">"Sou uma pessoa que protege suas horas mais importantes."</p>
+        <p style="font-size:11px;color:var(--gold);margin:6px 0 0;">— Uma identidade</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 05</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">20</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- CAPÍTULO 6 OPENER -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page chapter-opener" id="cap6">
+  <div class="ch-accent-bar"></div>
+  <div class="ch-number-bg">06</div>
+  <div class="ch-content">
+    <div class="ch-label">Capítulo 06</div>
+    <div class="ch-title">Resultados<br>sem Burnout</div>
+    <div class="ch-sub">Como Produzir Muito e Ainda Ter Vida</div>
+    <div class="ch-divider"></div>
+    <p class="ch-intro">Produtividade verdadeira não é trabalhar mais. É produzir melhor — sem esgotamento, sem culpa, sem burnout. Neste capítulo você descobrirá como transformar o Método das 3 Horas em uma prática sustentável para a vida inteira.</p>
+  </div>
+  <div class="ch-image-area">
+    <img src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?w=800&q=80" alt="Equilíbrio vida pessoal e profissional">
+    <div class="ch-image-overlay"></div>
+    <div class="ch-image-caption">Produtividade que respeita sua vida</div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 06</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">21</span>
+  </div>
+</div>
+
+<!-- CAP 6 PAGE 2 -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Cap. 6 — Resultados sem Burnout</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="section-title">Descanso não é Recompensa</div>
+
+    <p>Existe uma crença silenciosa que acompanha muitas pessoas: <em>"Vou descansar quando terminar tudo."</em> Mas existe um problema: você nunca termina tudo. Sempre haverá mais um e-mail, mais uma tarefa, mais uma demanda.</p>
+
+    <div class="pull-quote">
+      <p>Descanso não é prêmio. Descanso é estratégia. É parte do sistema. É uma ferramenta de desempenho.</p>
+    </div>
+
+    <p>O esgotamento não é prova de produtividade. É um sinal de desequilíbrio. Produtividade deveria criar liberdade — não uma prisão.</p>
+
+    <div class="section-title">As Quatro Formas de Recuperação</div>
+
+    <div class="energy-grid">
+      <div class="energy-card">
+        <div class="energy-card-title">😴 Recuperação Física</div>
+        <p>Sono adequado, alimentação equilibrada, movimento e pausas ao longo do dia. Seu cérebro funciona dentro de um corpo.</p>
+      </div>
+      <div class="energy-card">
+        <div class="energy-card-title">🧘 Recuperação Mental</div>
+        <p>Momentos sem estímulos, sem notificações, sem excesso de informação. Sua mente também precisa respirar.</p>
+      </div>
+      <div class="energy-card">
+        <div class="energy-card-title">💛 Recuperação Emocional</div>
+        <p>Conversas significativas, relacionamentos saudáveis, momentos de lazer e espiritualidade para quem pratica.</p>
+      </div>
+      <div class="energy-card">
+        <div class="energy-card-title">🎯 Recuperação de Propósito</div>
+        <p>Lembrar por que você faz o que faz. Reconectar-se com objetivos maiores. Celebrar avanços e conquistas.</p>
+      </div>
+    </div>
+
+    <div class="section-title">A Revisão 3H Semanal</div>
+
+    <div class="diagnostic-box">
+      <div class="diagnostic-title">Uma vez por semana — 15 minutos</div>
+      <div class="diag-item"><span class="diag-num">✅</span><p>O que funcionou bem esta semana?</p></div>
+      <div class="diag-item"><span class="diag-num">⚠️</span><p>O que prejudicou meu foco?</p></div>
+      <div class="diag-item"><span class="diag-num">⭐</span><p>Quais foram minhas principais Tarefas de Alavanca concluídas?</p></div>
+      <div class="diag-item"><span class="diag-num">⚡</span><p>Onde desperdicei energia esta semana?</p></div>
+      <div class="diag-item"><span class="diag-num">🔄</span><p>O que ajustarei para a próxima semana?</p></div>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-header">O Verdadeiro Significado da Produtividade</div>
+      <div class="summary-body">
+        <p style="font-size:14px;line-height:1.8;font-style:italic;font-family:'Playfair Display',serif;color:var(--text);margin:0;">Produtividade não é sobre fazer mais coisas. É sobre usar conscientemente um recurso que nunca poderá ser recuperado. Cada hora bem investida pode gerar resultados que duram anos. Quando você aprende a proteger suas horas mais importantes, não está apenas melhorando seu desempenho. <strong style="color:var(--gold);">Está honrando seu tempo.</strong></p>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Capítulo 06</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">22</span>
+  </div>
+</div>
+
+<!-- CARTA AO LEITOR -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Encerramento</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div style="height:160px; overflow:hidden; position:relative; margin:0 -52px 28px;">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80" alt="Pessoas realizadas" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0.45;filter:sepia(15%);">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,var(--dark2) 100%)"></div>
+    </div>
+
+    <div class="section-title">Carta ao Leitor</div>
+
+    <p>Se você chegou até aqui, quero lhe dizer algo importante.</p>
+
+    <p>Você não precisava deste livro porque era incapaz. Nem porque faltava esforço. Provavelmente você já estava se esforçando mais do que deveria. <strong>O que faltava era direção.</strong></p>
+
+    <p>Ao longo destas páginas você descobriu que produtividade não é trabalhar mais. É trabalhar melhor. Descobriu que atenção é um recurso precioso. Que energia importa mais do que tempo. Que prioridades definem resultados. Que hábitos constroem consistência. E que descanso faz parte do processo.</p>
+
+    <div class="pull-quote">
+      <p>Agora o conhecimento está com você. Mas conhecimento sozinho não transforma vidas. Aplicação transforma.</p>
+    </div>
+
+    <div class="highlight-box">
+      <div class="highlight-box-title">Seu convite para começar</div>
+      <ul class="checklist">
+        <li><span class="check-icon">→</span>Não tente mudar tudo hoje.</li>
+        <li><span class="check-icon">→</span>Comece amanhã. Proteja suas três horas.</li>
+        <li><span class="check-icon">→</span>Escolha sua Tarefa de Alavanca.</li>
+        <li><span class="check-icon">→</span>Execute seu Bloco de Alto Desempenho.</li>
+        <li><span class="check-icon">→</span>Repita. Depois repita novamente.</li>
+      </ul>
+    </div>
+
+    <p>Daqui a algumas semanas você perceberá mais clareza, mais controle, mais resultados. Daqui a alguns meses perceberá algo ainda maior: sua vida deixará de ser guiada por urgências — e começará a ser guiada por escolhas.</p>
+
+    <p style="text-align:center; font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--gold); margin-top:20px;">Você nunca precisou de mais tempo.<br>Você precisava das horas certas.</p>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Encerramento</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">23</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════ -->
+<!-- BÔNUS: KIT DE IMPLEMENTAÇÃO -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page chapter-opener" id="bonus">
+  <div class="ch-accent-bar"></div>
+  <div class="ch-number-bg">+</div>
+  <div class="ch-content">
+    <div class="ch-label">Bônus Exclusivo</div>
+    <div class="ch-title">Kit de<br>Implementação</div>
+    <div class="ch-sub">do Método das 3 Horas</div>
+    <div class="ch-divider"></div>
+    <p class="ch-intro">Ler este livro foi o primeiro passo. Agora chega o momento mais importante: a aplicação. Este Kit foi criado para reduzir o atrito e facilitar a implementação do Sistema 3H na sua rotina real, a partir de amanhã.</p>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:24px;">
+      <span style="background:rgba(201,162,39,0.15);border:1px solid rgba(201,162,39,0.3);border-radius:3px;padding:5px 12px;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;">Template Diário</span>
+      <span style="background:rgba(201,162,39,0.15);border:1px solid rgba(201,162,39,0.3);border-radius:3px;padding:5px 12px;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;">Rastreador 14 Dias</span>
+      <span style="background:rgba(201,162,39,0.15);border:1px solid rgba(201,162,39,0.3);border-radius:3px;padding:5px 12px;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;">Ritual de Entrada</span>
+      <span style="background:rgba(201,162,39,0.15);border:1px solid rgba(201,162,39,0.3);border-radius:3px;padding:5px 12px;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;">Ritual de Saída</span>
+      <span style="background:rgba(201,162,39,0.15);border:1px solid rgba(201,162,39,0.3);border-radius:3px;padding:5px 12px;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;">Revisão Semanal</span>
+      <span style="background:rgba(201,162,39,0.15);border:1px solid rgba(201,162,39,0.3);border-radius:3px;padding:5px 12px;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;">10 Distrações</span>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Kit de Implementação</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">24</span>
+  </div>
+</div>
+
+<!-- FERRAMENTA 1: PLANEJAMENTO DIÁRIO -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Ferramenta 1 — Planejamento Diário</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <span class="tool-card-icon">📋</span>
+        <span class="tool-card-title">Planejamento Diário 3H</span>
+      </div>
+      <div class="tool-card-body">
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:20px;">Preencha este template todas as noites em menos de cinco minutos.</p>
+
+        <div style="background:var(--dark); border:1px solid rgba(201,162,39,0.2); border-radius:4px; padding:22px 26px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; border-bottom:1px solid rgba(201,162,39,0.15); padding-bottom:14px;">
+            <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;">Planejamento Diário 3H</div>
+            <div style="font-size:12px; color:var(--text-dim);">Data: _____ / _____ / _______</div>
+          </div>
+
+          <div style="margin-bottom:18px;">
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">Minha principal Tarefa de Alavanca</div>
+            <div style="border-bottom:1px solid rgba(201,162,39,0.25); height:28px; margin-bottom:6px;"></div>
+            <div style="border-bottom:1px solid rgba(201,162,39,0.15); height:28px;"></div>
+          </div>
+
+          <div style="margin-bottom:18px;">
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">Outras duas tarefas importantes</div>
+            <div style="display:flex;gap:8px;margin-bottom:6px;"><span style="color:var(--gold);font-size:12px;">2.</span><div style="flex:1;border-bottom:1px solid rgba(201,162,39,0.2);"></div></div>
+            <div style="display:flex;gap:8px;"><span style="color:var(--gold);font-size:12px;">3.</span><div style="flex:1;border-bottom:1px solid rgba(201,162,39,0.2);"></div></div>
+          </div>
+
+          <div style="margin-bottom:18px;">
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">Horário do BAD</div>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;">
+              <div>Início: <span style="border-bottom:1px solid rgba(201,162,39,0.3);display:inline-block;width:50px;"></span></div>
+              <div>Fim: <span style="border-bottom:1px solid rgba(201,162,39,0.3);display:inline-block;width:50px;"></span></div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:18px;">
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">Primeiro passo que executarei amanhã</div>
+            <div style="border-bottom:1px solid rgba(201,162,39,0.2); height:28px;"></div>
+          </div>
+
+          <div class="flex-row">
+            <div style="flex:1;">
+              <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;color:rgba(220,100,100,0.7);text-transform:uppercase;margin-bottom:8px;">Possíveis distrações</div>
+              <div style="border-bottom:1px solid rgba(201,162,39,0.2); height:28px; margin-bottom:6px;"></div>
+              <div style="border-bottom:1px solid rgba(201,162,39,0.15); height:28px;"></div>
+            </div>
+            <div style="flex:1;">
+              <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">Como vou eliminá-las</div>
+              <div style="border-bottom:1px solid rgba(201,162,39,0.2); height:28px; margin-bottom:6px;"></div>
+              <div style="border-bottom:1px solid rgba(201,162,39,0.15); height:28px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Kit de Implementação</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">25</span>
+  </div>
+</div>
+
+<!-- FERRAMENTA 2: RASTREADOR 14 DIAS -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Ferramenta 2 — Rastreador de 14 Dias</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <span class="tool-card-icon">📈</span>
+        <span class="tool-card-title">Rastreador de 14 Dias</span>
+      </div>
+      <div class="tool-card-body">
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:16px;">Objetivo: criar consistência — não perfeição. Marque um ✓ sempre que concluir seu Bloco de Alto Desempenho.</p>
+
+        <table class="tracker-table">
+          <tr>
+            <th>Dia</th>
+            <th>BAD concluído?</th>
+            <th>Tarefa de Alavanca</th>
+            <th>Energia (1–10)</th>
+          </tr>
+          <tr><td>01</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>02</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>03</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>04</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>05</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>06</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>07</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>08</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>09</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>10</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>11</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>12</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>13</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+          <tr><td>14</td><td><span class="check-box"></span></td><td style="font-size:11px;color:var(--text-dim);">_________________</td><td style="font-size:11px;color:var(--text-dim);">_____</td></tr>
+        </table>
+
+        <div style="margin-top:16px; background:var(--dark); border:1px solid rgba(201,162,39,0.2); border-radius:3px; padding:14px 18px;">
+          <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">Resultado Final</div>
+          <p style="font-size:13px;margin-bottom:10px;">Quantos dias consegui cumprir? <span style="border-bottom:1px solid rgba(201,162,39,0.3);display:inline-block;width:40px;"></span> de 14</p>
+          <p style="font-size:13px;margin:0;">O que aprendi sobre minha rotina?</p>
+          <div style="border-bottom:1px solid rgba(201,162,39,0.2); height:26px; margin-top:8px;"></div>
+          <div style="border-bottom:1px solid rgba(201,162,39,0.15); height:26px; margin-top:4px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Kit de Implementação</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">26</span>
+  </div>
+</div>
+
+<!-- FERRAMENTAS 3 E 4: CHECKLISTS -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Ferramentas 3 e 4 — Checklists dos Rituais</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="flex-row">
+      <div style="flex:1;">
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span class="tool-card-icon">▶️</span>
+            <span class="tool-card-title">Ritual de Entrada</span>
+          </div>
+          <div class="tool-card-body">
+            <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Antes de iniciar seu BAD:</p>
+            <ul class="checklist" style="gap:6px;">
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Escolhi minha Tarefa de Alavanca.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Sei exatamente o que preciso concluir.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Celular em modo silencioso.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Notificações desligadas.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Mesa organizada.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Água disponível.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Material necessário separado.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Primeiro passo definido.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Respiração e preparação mental.</li>
+              <li style="padding:7px 10px;"><span class="check-icon">☐</span> Início imediato da execução.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;">
+        <div class="tool-card">
+          <div class="tool-card-header">
+            <span class="tool-card-icon">⏹️</span>
+            <span class="tool-card-title">Ritual de Saída</span>
+          </div>
+          <div class="tool-card-body">
+            <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Ao encerrar o BAD, 5 minutos:</p>
+            <ul class="checklist" style="gap:6px;">
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Registrei o que concluí hoje.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Identifiquei o que ficou pendente.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Defini o próximo passo.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Organizei meu ambiente.</li>
+              <li style="margin-bottom:6px;padding:7px 10px;"><span class="check-icon">☐</span> Planejei o próximo bloco.</li>
+              <li style="padding:7px 10px;"><span class="check-icon">☐</span> Encerrei conscientemente o trabalho.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tool-card" style="margin-top:16px;">
+          <div class="tool-card-header">
+            <span class="tool-card-icon">🔄</span>
+            <span class="tool-card-title">Revisão Semanal 3H</span>
+          </div>
+          <div class="tool-card-body">
+            <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Uma vez por semana — 15 minutos:</p>
+            <div style="font-size:12px; line-height:2.2; color:var(--text);">
+              <div>✅ O que funcionou bem?</div>
+              <div style="border-bottom:1px solid rgba(201,162,39,0.15);margin-bottom:6px;"></div>
+              <div>⚠️ O que prejudicou meu foco?</div>
+              <div style="border-bottom:1px solid rgba(201,162,39,0.15);margin-bottom:6px;"></div>
+              <div>⭐ Tarefas de Alavanca concluídas?</div>
+              <div style="border-bottom:1px solid rgba(201,162,39,0.15);margin-bottom:6px;"></div>
+              <div>🔄 O que ajustarei na próxima semana?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Kit de Implementação</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">27</span>
+  </div>
+</div>
+
+<!-- FERRAMENTA 5: 10 DISTRAÇÕES -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Ferramenta 5 — As 10 Distrações e Soluções</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content">
+    <div class="tool-card">
+      <div class="tool-card-header">
+        <span class="tool-card-icon">🛡️</span>
+        <span class="tool-card-title">As 10 Distrações Mais Comuns e Como Neutralizá-las</span>
+      </div>
+      <div class="tool-card-body">
+        <div class="distraction-item">
+          <div class="dist-problem"><div class="dist-label">Distração 1</div><p>Notificações do celular</p></div>
+          <div class="dist-solution"><div class="dist-label">Solução</div><p>Desative notificações durante o BAD. Sem exceção.</p></div>
+        </div>
+        <div class="distraction-item">
+          <div class="dist-problem"><div class="dist-label">Distração 2</div><p>WhatsApp e mensagens</p></div>
+          <div class="dist-solution"><div class="dist-label">Solução</div><p>Abra apenas em horários definidos — nunca durante o foco.</p></div>
+        </div>
+        <div class="distraction-item">
+          <div class="dist-problem"><div class="dist-label">Distração 3</div><p>E-mail constante</p></div>
+          <div class="dist-solution"><div class="dist-label">Solução</div><p>Verifique em blocos específicos. Nunca durante o foco profundo.</p></div>
+        </div>
+        <div class="distraction-item">
+          <div class="dist-problem"><div class="dist-label">Distração 4</div><p>Redes sociais</p></div>
+          <div class="dist-solution"><div class="dist-label">Solução</div><p>Remova atalhos do navegador e limite horários de acesso.</p></div>
+        </div>
+        <div class="distraction-item">
+          <div class="dist-problem"><div class="dist-label">Distração 5</div><p>Reuniões excessivas</p></div>
+          <div class="dist-solution"><div class="dist-label">Solução</div><p>Pergunte: "Minha presença é realmente necessária?"</p></div>
+        </div>
+        <div class="distraction-item">
+          <div class="dist-problem"><div class="dist-label">Distração 6</div><p>Multitarefa constante</p></div>
+          <div class="dist-solution"><div class="dist-label">Solução</div><p>Uma tarefa por vez. Sempre. Sem negociação.</p></div>
+        </div>
+        <div class="distraction-item">
+          <div class="dist-problem"><div class="dist-label">Distração 7</div><p>Ambiente bagunçado</p></div>
+          <div class="dist-solution"><div class="dist-label">Solução</div><p>Organize a mesa antes de começar. Espaço claro = mente clara.</p></div>
+        </div>
+        <div class="distraction-item">
+          <div class="dist-problem"><div class="dist-label">Distração 8</div><p>Falta de clareza</p></div>
+          <div class="dist-solution"><div class="dist-label">Solução</div><p>Defina a Tarefa de Alavanca antes do dia começar — na noite anterior.</p></div>
+        </div>
+        <div class="distraction-item">
+          <div class="dist-problem"><div class="dist-label">Distração 9</div><p>Excesso de compromissos</p></div>
+          <div class="dist-solution"><div class="dist-label">Solução</div><p>Aprenda a dizer não. Proteger seu BAD é proteger seus resultados.</p></div>
+        </div>
+        <div class="distraction-item">
+          <div class="dist-problem"><div class="dist-label">Distração 10</div><p>Perfeccionismo</p></div>
+          <div class="dist-solution"><div class="dist-label">Solução</div><p>Busque progresso. Não perfeição. Feito é melhor que perfeito.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Kit de Implementação</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">28</span>
+  </div>
+</div>
+
+<!-- COMPROMISSO 3H -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-tag">Compromisso 3H</span>
+    <span class="page-header-tag">Sistema 3H</span>
+  </div>
+  <div class="page-content" style="display:flex; flex-direction:column; justify-content:center; min-height:900px;">
+    <div class="commitment-box">
+      <div class="commitment-title">Compromisso 3H</div>
+      <div style="width:60px; height:2px; background:var(--gold); margin:0 auto 24px; border-radius:1px;"></div>
+      <div class="commitment-text">
+        Eu me comprometo a proteger minhas horas mais importantes.<br>
+        A utilizar minha energia com intenção.<br>
+        A priorizar aquilo que realmente gera resultado.<br>
+        E a aplicar o Método das 3 Horas pelos próximos 14 dias.
+      </div>
+      <div class="commitment-sig">
+        <div>
+          <div class="sig-line"></div>
+          <div>Assinatura</div>
+        </div>
+        <div>
+          <div class="sig-line"></div>
+          <div>Data</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:36px;">
+      <div style="width:48px; height:48px; border-radius:50%; border:1px solid rgba(201,162,39,0.4); display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="#C9A227" stroke-width="1.5"/>
+          <line x1="12" y1="12" x2="12" y2="6" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="12" y1="12" x2="16" y2="12" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:8px;">As próximas 3 horas<br>podem mudar tudo.</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;">Foco total · Energia certa · Resultado real</div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="page-num">Kit de Implementação</span>
+    <div class="footer-bar"></div>
+    <span class="page-num">29</span>
+  </div>
+</div>
+
+<!-- PÁGINA FINAL -->
+<div class="page final-page" id="final">
+  <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold-dim),var(--gold),var(--gold-light),var(--gold));"></div>
+
+  <!-- Decorative circles -->
+  <div style="position:absolute;width:400px;height:400px;border-radius:50%;border:1px solid rgba(201,162,39,0.05);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div style="position:absolute;width:550px;height:550px;border-radius:50%;border:1px solid rgba(201,162,39,0.03);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+
+  <div class="final-gold-circle">
+    <svg class="final-clock-svg" viewBox="0 0 80 80" fill="none">
+      <circle cx="40" cy="40" r="38" stroke="#C9A227" stroke-width="1.5" opacity="0.6"/>
+      <line x1="40" y1="40" x2="40" y2="12" stroke="#C9A227" stroke-width="2" stroke-linecap="round"/>
+      <line x1="40" y1="40" x2="58" y2="40" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M40 5 A35 35 0 0 1 75 40" stroke="#C9A227" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.8"/>
+      <circle cx="40" cy="40" r="4" fill="#C9A227" opacity="0.8"/>
+    </svg>
+  </div>
+
+  <div class="final-title">O Método das 3 Horas</div>
+  <div class="final-sub">Sistema 3H — Foco total. Energia certa. Resultado real.</div>
+
+  <div class="final-divider"></div>
+
+  <div class="final-message">
+    Produtividade não é sobre fazer mais.<br>
+    É sobre fazer o que importa.<br><br>
+    Você não precisa de mais horas.<br>
+    Não precisa de uma agenda perfeita.<br>
+    Não precisa trabalhar até a exaustão.<br><br>
+    <strong>Você precisa proteger as horas certas.</strong><br><br>
+    Bem-vindo ao Método das 3 Horas.<br>
+    Agora é sua vez de colocá-lo em prática.
+  </div>
+
+  <div class="final-divider"></div>
+  <div class="final-tagline">Sistema 3H — Método das 3 Horas</div>
+</div>
+
+</div><!-- /book -->
+
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Mobile menu toggle
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const toggle = document.getElementById('menu-toggle');
+  const open = menu.classList.toggle('open');
+  toggle.style.opacity = open ? '0.7' : '1';
+}
+// Close menu on outside tap
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('mobile-menu');
+  const toggle = document.getElementById('menu-toggle');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !toggle.contains(e.target)) {
+    menu.classList.remove('open');
+  }
+});
+
+// Navigation
+function goTo(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({behavior:'smooth', block:'start'});
+    // Update active nav button
+    document.querySelectorAll('.nav-chapters button').forEach(b => b.classList.remove('active'));
+    const mapping = {cover:'Capa',intro:'Intro',cap1:'Cap. 1',cap2:'Cap. 2',cap3:'Cap. 3',cap4:'Cap. 4',cap5:'Cap. 5',cap6:'Cap. 6',bonus:'Bônus'};
+    document.querySelectorAll('.nav-chapters button').forEach(b => {
+      if (b.textContent === mapping[id]) b.classList.add('active');
+    });
+  }
+}
+
+// Back to top button
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('back-top');
+  if (window.scrollY > 400) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+});
+
+// Active nav tracking
+const pages = ['cover','intro','cap1','cap2','cap3','cap4','cap5','cap6','bonus','final'];
+const navMap = {cover:0, toc:0, intro:1, intro2:1, cap1:2, cap2:3, cap3:4, cap4:5, cap5:6, cap6:7, bonus:8};
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && e.intersectionRatio > 0.3) {
+      const id = e.target.id;
+      if (id in navMap) {
+        document.querySelectorAll('.nav-chapters button').forEach((b,i) => {
+          b.classList.toggle('active', i === navMap[id]);
+        });
+      }
+    }
+  });
+}, {threshold: 0.3});
+
+document.querySelectorAll('.page[id]').forEach(p => observer.observe(p));
+</script>
+
+</body>
+</html>
